@@ -1,4 +1,4 @@
-const detectErrorSource = require("../src/utils/sourceDetector");
+import detectErrorSource from "../src/utils/sourceDetector.js";
 
 describe("Error Source Detection", () => {
   test("Detects JavaScript error source", () => {

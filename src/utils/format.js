@@ -10,5 +10,4 @@ Cause: ${errorObject.cause}
 Solution: ${errorObject.solution}
   `;
 }
-
-module.exports = { prettyPrintError };
+export { prettyPrintError };

@@ -5,7 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "node examples/basicUsage.js",
-    "test": "jest",
+    "test": "node --no-warnings --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "lint": "eslint .",
     "prepublishOnly": "npm test && npm run lint"
   },

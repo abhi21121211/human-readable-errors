@@ -1,5 +1,9 @@
 // examples/basicUsag
 
+import { handleError } from "../src/main.js";
+
+// import { handleError } from "../src/main";
+
 const errors = [
   `Error: Cannot read property 'x' of undefined
     at MyComponent (src/app/mycomponent.ts:15:20)`, // Angular

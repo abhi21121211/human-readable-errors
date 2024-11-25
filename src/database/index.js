@@ -1,59 +1,64 @@
-const errorMappings = require("./errorMappings.json");
-const { getSimilarityScore } = require("../utils/similarity");
+import errorMappings from "../database/errorMappings.json" assert { type: "json" };
+import { getSimilarityScore } from "../utils/similarity.js";
 
 /**
- * Fetch the error solution based on the given stack trace or error message.
+ * Fetches the error solution based on the given error message.
  * @param {string} errorMessage - The error message or stack trace.
- * @returns {Object} - Matching error details (type, description, solution, cause) or fallback response.
+ * @returns {Object} - Matching error details (type, description, solution, cause, matchScore, suggestions).
  */
 function getErrorSolution(errorMessage) {
-  console.log(`Input errorMessage: "${errorMessage}"`);
-
-  // Step 1: Exact match
+  // Try exact match first
   const exactMatch = errorMappings.errors.find(
     (err) => err.error === errorMessage
   );
   if (exactMatch) {
-    console.log("Exact match found:", exactMatch);
     return {
       type: "JavaScript",
-      description: exactMatch.description,
-      solution: exactMatch.solution,
-      cause: exactMatch.cause,
+      description: exactMatch.description || "No description provided.",
+      solution: exactMatch.solution || "No solution provided.",
+      cause: exactMatch.cause || "Cause unknown.",
+      matchScore: "1.00", // Exact match
     };
   }
 
-  // Step 2: Partial match using similarity scoring
+  // Perform partial match using similarity scoring
   let bestMatch = null;
   let highestScore = 0;
-  const threshold = 0.7; // Adjusted threshold for similarity matches
+  const threshold = 0.65; // Minimum score for a match
+  // console.log(errorMessage, "fffffffffffff errorMessage");
   errorMappings.errors.forEach((err) => {
+    // console.log(errorMessage, "fffffffffffff err.error");
     const score = getSimilarityScore(errorMessage, err.error);
-    console.log(`Similarity score for "${err.error}": ${score}`);
+    // console.log(score, "fffffffffffff score");
     if (score > highestScore && score >= threshold) {
       highestScore = score;
       bestMatch = err;
     }
   });
 
+  // console.log(bestMatch, "ffffffffffff bestMatch");
   if (bestMatch) {
-    console.log("Best partial match found:", bestMatch);
     return {
       type: "JavaScript",
-      description: bestMatch.description,
-      solution: bestMatch.solution,
-      cause: bestMatch.cause,
+      description: bestMatch.description || "No description provided.",
+      solution: bestMatch.solution || "No solution provided.",
+      cause: bestMatch.cause || "Cause unknown.",
+      matchScore: highestScore.toFixed(2),
     };
   }
 
-  // Step 3: Fallback response for unknown errors
-  console.log("No match found, returning fallback response.");
+  // If no matches found, return a default fallback response
   return {
     type: "Unknown",
-    description: "An unrecognized error occurred.",
-    solution: "Please refer to official documentation or debug further.",
-    cause: "Unknown error type.",
+    description: "No exact or close match found for the provided error.",
+    solution: "Refer to the documentation for unknown errors.",
+    suggestions: [
+      "Check the database for potential updates.",
+      "Provide more specific error details.",
+      "Consult the official documentation for debugging steps.",
+    ],
+    matchScore: "N/A",
   };
 }
 
-module.exports = { getErrorSolution };
+export { getErrorSolution };

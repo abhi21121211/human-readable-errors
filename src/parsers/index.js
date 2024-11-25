@@ -1,34 +1,27 @@
-// src/parsers/index.js
+import { nodeParser } from "./nodeParser.js";
+import { reactParser } from "./reactParser.js";
+import { parseAngularError } from "./angularParser.js";
+import { parsePythonError } from "./pythonParser.js";
+import { parseGoError } from "./goParser.js";
 
-const { parseNodeError } = require("./nodeParser");
-const { parseReactError } = require("./reactParser");
-const { parseAngularError } = require("./angularParser");
-const { parsePythonError } = require("./pythonParser");
-const { parseGoError } = require("./goParser");
-const { parseStackTrace } = require("./stackTraceParser");
-
+/**
+ * Routes error strings to the appropriate parser based on environment or patterns.
+ * @param {string} errorString - The error message or stack trace.
+ * @param {string} environment - The development environment (e.g., 'node', 'react').
+ * @returns {object} - Parsed error details.
+ */
 function parseError(errorString, environment = null) {
-  // Route to specific parsers if the environment is specified
-  if (environment === "node") return parseNodeError(errorString);
-  if (environment === "react") return parseReactError(errorString);
+  if (environment === "node") return nodeParser(errorString);
+  if (environment === "react") return reactParser(errorString);
   if (environment === "angular") return parseAngularError(errorString);
   if (environment === "python") return parsePythonError(errorString);
   if (environment === "go") return parseGoError(errorString);
 
-  // Auto-detection based on error patterns
-  if (errorString.includes("Error: ") && errorString.includes(" at ")) {
-    return parseAngularError(errorString) || parseReactError(errorString);
+  if (errorString.includes(" at ") && errorString.includes("Error: ")) {
+    return reactParser(errorString) || parseAngularError(errorString);
   }
 
-  if (errorString.includes('File "') && errorString.includes("line ")) {
-    return parsePythonError(errorString);
-  }
-
-  if (errorString.match(/:\d+:\d+:/)) {
-    return parseGoError(errorString);
-  }
-
-  return parseNodeError(errorString); // Default to Node.js
+  return nodeParser(errorString);
 }
 
-module.exports = { parseError, parseStackTrace };
+export { parseError };

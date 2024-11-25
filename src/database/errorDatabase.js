@@ -156,4 +156,4 @@ const fallbackError = {
 };
 
 // Exporting the database and fallback
-module.exports = { errorDatabase, fallbackError };
+export { errorDatabase, fallbackError };

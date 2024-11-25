@@ -1,142 +1,232 @@
 {
   "errors": [
     {
-      "error": "panic: runtime error: index out of range",
-      "description": "An attempt to access an array index that does not exist.",
-      "solution": "Check the array length before accessing an index.",
-      "cause": "The specified index is out of the array's bounds."
+      "error": "Segmentation Fault (SIGSEGV)",
+      "description": "Attempting to access memory that is not allocated or permitted for the current process.",
+      "solution": "Check memory allocation, pointer handling, and array bounds in low-level languages like C/C++.",
+      "cause": "Illegal memory access, dangling pointers, or buffer overflows."
     },
     {
-      "error": "TypeError: Cannot read property 'xyz' of undefined",
-      "description": "Attempting to access a property of an undefined or null value.",
-      "solution": "Ensure that the object is defined and initialized before accessing its properties.",
-      "cause": "The referenced object or variable is undefined or null."
+      "error": "NullPointerException",
+      "description": "Attempting to use a null reference in object-oriented programming.",
+      "solution": "Use null checks, Optional types, or implement null-safe design patterns.",
+      "cause": "Uninitialized objects or unexpected null values."
     },
     {
-      "error": "ReferenceError: foo is not defined",
-      "description": "A variable or function is being used before it has been declared or initialized.",
-      "solution": "Declare the variable or function before using it.",
-      "cause": "The variable or function is not in scope at the time of access."
+      "error": "Deadlock Error",
+      "description": "Two or more threads are unable to proceed because each is waiting for the other to release a lock.",
+      "solution": "Implement proper synchronization mechanisms, use lock ordering, or employ timeout strategies.",
+      "cause": "Circular dependency in resource acquisition between threads."
     },
     {
-      "error": "SyntaxError: Unexpected token",
-      "description": "An unexpected or invalid token (character or symbol) in the code.",
-      "solution": "Check the syntax of the code, especially near the error location.",
-      "cause": "A typo or incorrect syntax (e.g., a missing parenthesis, bracket, etc.)."
+      "error": "Connection Timeout",
+      "description": "A network connection could not be established within the expected time frame.",
+      "solution": "Increase timeout settings, check network stability, verify server availability.",
+      "cause": "Slow network, overloaded server, firewall restrictions."
     },
     {
-      "error": "Uncaught Error: Request failed with status code 404",
-      "description": "The server could not find the requested resource.",
-      "solution": "Check the URL, ensure the resource exists on the server, or handle the 404 error appropriately.",
-      "cause": "The requested URL or endpoint is incorrect or does not exist."
+      "error": "Database Constraint Violation",
+      "description": "An operation violates database integrity constraints.",
+      "solution": "Validate data before database insertion, handle constraint rules explicitly.",
+      "cause": "Attempting to insert duplicate unique keys, violating foreign key constraints."
     },
     {
-      "error": "TypeError: 'undefined' is not an object (evaluating 'obj.prop')",
-      "description": "Attempting to access a property of undefined.",
-      "solution": "Check if the object is defined and initialized before accessing its properties.",
-      "cause": "The object is undefined, meaning it hasn't been created or assigned a value yet."
+      "error": "Race Condition Detected",
+      "description": "Multiple threads or processes access shared resources unpredictably.",
+      "solution": "Use synchronization primitives, atomic operations, or lock-free data structures.",
+      "cause": "Concurrent access to mutable shared state without proper synchronization."
     },
     {
-      "error": "OutOfMemoryError: Java heap space",
-      "description": "The Java Virtual Machine (JVM) has run out of memory while trying to allocate more space.",
-      "solution": "Increase the Java heap size by adjusting the `-Xmx` JVM option or optimize memory usage in the application.",
-      "cause": "The application is consuming more memory than allocated, possibly due to memory leaks or large data structures."
+      "error": "SSL/TLS Handshake Failure",
+      "description": "Secure connection negotiation between client and server failed.",
+      "solution": "Verify SSL certificates, check protocol compatibility, update security configurations.",
+      "cause": "Incompatible SSL/TLS versions, invalid certificates, misconfigured security settings."
     },
     {
-      "error": "ModuleNotFoundError: No module named 'xyz'",
-      "description": "A Python module could not be found.",
-      "solution": "Ensure the module is installed using `pip` or check for typos in the module name.",
-      "cause": "The required Python module is either not installed or not correctly named."
+      "error": "JSON Parsing Error",
+      "description": "Unable to parse a JSON string due to invalid structure.",
+      "solution": "Validate JSON structure, use try-catch blocks, implement robust parsing strategies.",
+      "cause": "Malformed JSON, unexpected data types, missing or extra commas."
     },
     {
-      "error": "ImportError: cannot import name 'xyz' from 'module'",
-      "description": "Attempting to import a function or class that doesn't exist in the specified module.",
-      "solution": "Check the module for the correct function or class name and ensure it’s properly exported.",
-      "cause": "The function or class is not defined in the specified module."
+      "error": "Permission Denied (EACCES)",
+      "description": "Insufficient permissions to perform a file or system operation.",
+      "solution": "Check file/directory permissions, use appropriate user privileges, verify access rights.",
+      "cause": "Insufficient user rights, locked files, system security restrictions."
     },
     {
-      "error": "AttributeError: 'NoneType' object has no attribute 'xyz'",
-      "description": "Attempting to access an attribute or method on a `None` (null) object in Python.",
-      "solution": "Check if the object is `None` before attempting to access its attributes or methods.",
-      "cause": "The object is `None`, and therefore doesn't have the requested attribute."
+      "error": "WebSocket Connection Error",
+      "description": "Failed to establish or maintain a WebSocket connection.",
+      "solution": "Check server WebSocket support, validate connection parameters, handle reconnection.",
+      "cause": "Server unavailability, network issues, protocol incompatibility."
     },
     {
-      "error": "StackOverflowError",
-      "description": "The application’s call stack has exceeded the maximum allowed size.",
-      "solution": "Check for infinite recursion or excessive method calls in the code.",
-      "cause": "A recursive function may not have a proper base case, causing infinite recursion."
+      "error": "Out of Disk Space",
+      "description": "The system has exhausted available storage capacity.",
+      "solution": "Free up disk space, manage temporary files, implement storage cleanup strategies.",
+      "cause": "Accumulated large files, insufficient storage allocation, poor disk management."
     },
     {
-      "error": "404 Not Found",
-      "description": "The requested resource could not be found on the server.",
-      "solution": "Verify that the requested resource exists or handle the error gracefully with a custom 404 page.",
-      "cause": "The resource doesn't exist or the URL is incorrect."
+      "error": "Circular Dependency Error",
+      "description": "Modules or components have interdependent imports creating an unresolvable loop.",
+      "solution": "Refactor code structure, break circular dependencies, use dependency injection.",
+      "cause": "Tightly coupled module imports, poor architectural design."
     },
     {
-      "error": "503 Service Unavailable",
-      "description": "The server is temporarily unable to handle the request due to a temporary overloading or maintenance of the server.",
-      "solution": "Check the server's health, resolve any overload issues, or try the request again later.",
-      "cause": "The server is overwhelmed or under maintenance."
+      "error": "Rate Limit Exceeded",
+      "description": "API or service request frequency surpasses allowed threshold.",
+      "solution": "Implement request throttling, use exponential backoff, respect API rate limits.",
+      "cause": "Excessive API calls, burst traffic, aggressive polling."
     },
     {
-      "error": "ECONNREFUSED",
-      "description": "The network connection was refused by the target server.",
-      "solution": "Verify that the server is running and that the correct IP and port are used.",
-      "cause": "The server is unreachable or not accepting connections."
+      "error": "Unicode Decoding Error",
+      "description": "Failure to correctly interpret or convert character encodings.",
+      "solution": "Specify correct character encoding, handle encoding/decoding explicitly.",
+      "cause": "Mismatched character encoding, incomplete or corrupted character sequences."
     },
     {
-      "error": "Error: connect ECONNREFUSED",
-      "description": "A network connection attempt was refused.",
-      "solution": "Ensure that the server is up and reachable, check network configurations, and retry.",
-      "cause": "The connection attempt was rejected by the target machine."
+      "error": "Thread Pool Exhaustion",
+      "description": "All threads in a thread pool are busy, preventing new task execution.",
+      "solution": "Optimize thread pool configuration, implement adaptive thread management.",
+      "cause": "High concurrency, long-running tasks blocking thread pool."
     },
     {
-      "error": "MySQL Error: ER_ACCESS_DENIED_ERROR",
-      "description": "Access denied to the MySQL server with the provided credentials.",
-      "solution": "Ensure that the username and password are correct and have sufficient privileges.",
-      "cause": "Incorrect login credentials or insufficient user privileges."
+      "error": "Cryptographic Verification Failure",
+      "description": "Digital signature or hash verification unsuccessful.",
+      "solution": "Verify data integrity, check cryptographic keys, validate transmission.",
+      "cause": "Corrupted data, key mismatch, tampering during transmission."
     },
     {
-      "error": "Error: ENOENT: no such file or directory",
-      "description": "A file or directory cannot be found in the specified path.",
-      "solution": "Check that the file or directory exists and that the path is correct.",
-      "cause": "The specified file or directory does not exist or the path is incorrect."
+      "error": "Container Orchestration Scheduling Error",
+      "description": "Inability to schedule or deploy containers in a cluster.",
+      "solution": "Check resource constraints, validate configuration, monitor cluster health.",
+      "cause": "Insufficient resources, network issues, misconfigured deployments."
     },
     {
-      "error": "Error: Failed to fetch",
-      "description": "An HTTP request has failed, usually due to a network error.",
-      "solution": "Check the network connection and ensure the endpoint is correct and responsive.",
-      "cause": "Network issues, incorrect endpoint, or server issues."
+      "error": "Stream Processing Backpressure",
+      "description": "Data processing pipeline unable to handle incoming data rate.",
+      "solution": "Implement backpressure handling, adjust processing speed, use buffering strategies.",
+      "cause": "High-volume data streams overwhelming processing capacity."
     },
     {
-      "error": "MemoryError",
-      "description": "The Python interpreter runs out of memory.",
-      "solution": "Optimize memory usage, or increase available memory if possible.",
-      "cause": "The system ran out of memory due to inefficient code or a large data set."
+      "error": "Cannot read properties of undefined (reading 'property')",
+      "description": "Attempting to access a property of an undefined object or variable in React component.",
+      "solution": "Use optional chaining (?.), provide default values, or add null checks before accessing nested properties.",
+      "cause": "Uninitialized state, async data not yet loaded, or improper prop passing."
     },
     {
-      "error": "undefined method `xyz' for nil:NilClass",
-      "description": "An attempt to call a method on a `nil` (null) object in Ruby.",
-      "solution": "Ensure the object is not `nil` before invoking the method.",
-      "cause": "The object being called is `nil` or has not been initialized."
+      "error": "Maximum update depth exceeded",
+      "description": "Too many state updates occurring in a single render cycle, causing an infinite render loop.",
+      "solution": "Use useCallback, useMemo to memoize functions and values, avoid unnecessary re-renders.",
+      "cause": "Improperly implemented state updates, recursive state changes without proper guards."
     },
     {
-      "error": "Error: 'xyz' is not a valid URL",
-      "description": "The provided string is not a valid URL.",
-      "solution": "Check the URL format and ensure it follows the proper syntax.",
-      "cause": "The string provided does not conform to valid URL standards."
+      "error": "Invalid hook call",
+      "description": "React hooks called outside of functional component or in conditional blocks.",
+      "solution": "Ensure hooks are called at the top level of functional components, never inside loops, conditions, or nested functions.",
+      "cause": "Incorrect hook usage, violating React's hook rules."
     },
     {
-      "error": "SyntaxError: unexpected end of file",
-      "description": "The code file ends unexpectedly, usually due to a missing parenthesis, bracket, or end keyword.",
-      "solution": "Check for unmatched parentheses or missing end statements.",
-      "cause": "An incomplete or improperly closed code block."
+      "error": "Unhandled Promise Rejection",
+      "description": "A Promise is rejected without a catch handler in an async operation.",
+      "solution": "Always add .catch() to promises or use try-catch with async/await, implement global error handling.",
+      "cause": "Asynchronous errors not properly caught, network failures, API request errors."
     },
     {
-      "error": "TypeError: x is not a function",
-      "description": "A non-function value is being invoked as a function.",
-      "solution": "Ensure the value being called is a function and not another type (e.g., string or number).",
-      "cause": "The value being invoked is not a callable function."
+      "error": "React Component Rendering Undefined",
+      "description": "A React component returns undefined instead of a valid JSX element.",
+      "solution": "Ensure all code paths in render methods return valid JSX, use explicit return statements.",
+      "cause": "Conditional rendering without proper fallback, missing return statement."
+    },
+    {
+      "error": "Too Many Re-renders",
+      "description": "Component is re-rendering excessively, triggering React's render limit.",
+      "solution": "Use React.memo(), useMemo(), useCallback() to optimize component rendering, avoid unnecessary state updates.",
+      "cause": "State updates in render method, improper dependency arrays in hooks."
+    },
+    {
+      "error": "Webpack Module Not Found",
+      "description": "Unable to resolve a module or import in a JavaScript/React project.",
+      "solution": "Check import paths, ensure correct file extensions, verify module installation.",
+      "cause": "Incorrect import statements, missing npm packages, path resolution issues."
+    },
+    {
+      "error": "Cannot use 'import' statement outside a module",
+      "description": "Attempting to use ES6 module syntax in an environment that doesn't support it.",
+      "solution": "Configure Babel, use appropriate build tools, ensure correct module settings in bundler.",
+      "cause": "Misconfigured build process, incorrect file type or bundler settings."
+    },
+    {
+      "error": "React Context Consumer Outside Provider",
+      "description": "Attempting to use a React Context without wrapping parent component with its Provider.",
+      "solution": "Wrap parent components with the corresponding Context.Provider, pass required value.",
+      "cause": "Missing Context provider in component hierarchy."
+    },
+    {
+      "error": "State Update on Unmounted Component",
+      "description": "Attempting to set state on a component that has already been unmounted.",
+      "solution": "Use useEffect cleanup, implement component mounted check, cancel async operations.",
+      "cause": "Async operations continuing after component unmount, race conditions."
+    },
+    {
+      "error": "PropTypes Validation Failed",
+      "description": "Component receives props that do not match the defined PropTypes.",
+      "solution": "Validate prop types, provide default props, use TypeScript for stronger type checking.",
+      "cause": "Incorrect prop types passed to components, type mismatches."
+    },
+    {
+      "error": "React Key Prop Warning",
+      "description": "Rendering lists without unique 'key' prop causing performance and reconciliation issues.",
+      "solution": "Provide unique, stable key for each list item, preferably using unique identifier.",
+      "cause": "Missing or non-unique keys in list rendering."
+    },
+    {
+      "error": "Cannot Mutate State Directly in React",
+      "description": "Attempting to modify state directly instead of using setState or state updating functions.",
+      "solution": "Use setState, React.useState updater functions, create new state objects instead of mutating.",
+      "cause": "Direct state mutation, breaking React's immutability principle."
+    },
+    {
+      "error": "Memory Leak in React Effects",
+      "description": "Asynchronous operations not properly cleaned up in useEffect hook.",
+      "solution": "Return cleanup function from useEffect, cancel subscriptions, clear timers and listeners.",
+      "cause": "Unhandled async operations, missing effect cleanup."
+    },
+    {
+      "error": "React Router Navigation Error",
+      "description": "Issues with client-side routing, navigation failures.",
+      "solution": "Check route configurations, use proper navigation methods, handle route guards.",
+      "cause": "Incorrect route definitions, navigation logic errors."
+    },
+    {
+      "error": "React Synthetic Event Pooling",
+      "description": "Accessing event object asynchronously after event handler execution.",
+      "solution": "Call event.persist() for async event handling, or extract required properties immediately.",
+      "cause": "React's event pooling mechanism nullifying event object after handler completes."
+    },
+    {
+      "error": "JavaScript Temporal Dead Zone (TDR)",
+      "description": "Accessing variables declared with let/const before their declaration.",
+      "solution": "Ensure variables are declared before use, understand block-scoping behavior.",
+      "cause": "Hoisting behavior with let and const declarations."
+    },
+    {
+      "error": "React Performance Warning: Expensive Render",
+      "description": "Component performing complex computations during every render cycle.",
+      "solution": "Use useMemo for expensive computations, memoize components with React.memo, optimize render logic.",
+      "cause": "Inefficient rendering, unnecessary recalculations on each render."
+    },
+    {
+      "error": "Cross-Origin Resource Sharing (CORS) Error",
+      "description": "Browser blocking access to resources from a different domain.",
+      "solution": "Configure server CORS settings, use proxy in development, set appropriate headers.",
+      "cause": "Security restrictions preventing cross-origin API requests."
+    },
+    {
+      "error": "React Hydration Mismatch",
+      "description": "Server-rendered content differs from client-side rendered content.",
+      "solution": "Ensure consistent rendering between server and client, avoid browser-only APIs during initial render.",
+      "cause": "Different rendering logic or data between server and client."
     }
   ]
 }

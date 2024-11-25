@@ -1,6 +1,6 @@
 // tests/utils.test.js
 
-const { getSimilarityScore } = require("../src/utils/similarity");
+import { getSimilarityScore } from "../src/utils/similarity.js";
 
 describe("Utils Module - Similarity", () => {
   test("Calculates similarity between two identical strings", () => {

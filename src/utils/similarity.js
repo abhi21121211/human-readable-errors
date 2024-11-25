@@ -6,6 +6,7 @@
  */
 function getSimilarityScore(str1, str2) {
   if (!str1 || !str2) return 0;
+
   const length1 = str1.length;
   const length2 = str2.length;
 
@@ -28,7 +29,15 @@ function getSimilarityScore(str1, str2) {
   }
 
   const levenshteinDistance = distanceMatrix[length1][length2];
-  return 1 - levenshteinDistance / Math.max(length1, length2);
+  const score = 1 - levenshteinDistance / Math.max(length1, length2);
+
+  // Weighted scoring: Boost keywords that are critical in error messages
+  const importantKeywords = ["TypeError", "ReferenceError", "SyntaxError"];
+  const containsKeywords = importantKeywords.some(
+    (keyword) => str1.includes(keyword) && str2.includes(keyword)
+  );
+
+  return containsKeywords ? score + 0.1 : score; // Bonus for keyword matches
 }
 
-module.exports = { getSimilarityScore };
+export { getSimilarityScore };

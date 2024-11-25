@@ -18,4 +18,4 @@ function parseAngularError(errorString) {
   };
 }
 
-module.exports = { parseAngularError };
+export { parseAngularError };

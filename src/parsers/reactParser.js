@@ -16,5 +16,4 @@ function reactParser(errorString) {
     columnNumber: stackMatch ? parseInt(stackMatch[4], 10) : null,
   };
 }
-
-module.exports = reactParser;
+export { reactParser };

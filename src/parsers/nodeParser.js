@@ -16,4 +16,4 @@ function nodeParser(errorString) {
   };
 }
 
-module.exports = nodeParser;
+export { nodeParser };

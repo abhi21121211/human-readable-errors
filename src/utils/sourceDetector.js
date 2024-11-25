@@ -14,4 +14,4 @@ const detectErrorSource = (errorMessage) => {
   return "Unknown"; // Default to unknown if no patterns match
 };
 
-module.exports = detectErrorSource;
+export default detectErrorSource;

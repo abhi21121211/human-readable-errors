@@ -17,5 +17,4 @@ function parsePythonError(errorString) {
     columnNumber: null, // Python errors don't include column numbers
   };
 }
-
-module.exports = { parsePythonError };
+export { parsePythonError };

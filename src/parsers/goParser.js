@@ -17,4 +17,4 @@ function parseGoError(errorString) {
   };
 }
 
-module.exports = { parseGoError };
+export { parseGoError };

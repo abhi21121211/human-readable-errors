@@ -13,4 +13,4 @@ function parseStackTrace(stackTrace) {
   return match ? match[0].trim() : null;
 }
 
-module.exports = { parseStackTrace };
+export { parseStackTrace };

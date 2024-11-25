@@ -1,6 +1,6 @@
 // tests/parsers.test.js
 
-const { parseStackTrace } = require("../src/parsers/stackTraceParser");
+import { parseStackTrace } from "../src/parsers/stackTraceParser.js";
 
 describe("StackTraceParser", () => {
   test("Extracts error message from a stack trace", () => {
