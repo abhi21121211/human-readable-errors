@@ -1,6 +1,12 @@
 {
   "errors": [
     {
+      "error": "Cannot read property 'length' of undefined",
+      "description": "Cannot read property 'length' of undefined",
+      "cause": "The variable might not be initialized or has been assigned an incorrect value.",
+      "solution": "Ensure the variable is defined before accessing its properties."
+    },
+    {
       "error": "Segmentation Fault (SIGSEGV)",
       "description": "Attempting to access memory that is not allocated or permitted for the current process.",
       "solution": "Check memory allocation, pointer handling, and array bounds in low-level languages like C/C++.",
