@@ -1,6 +1,4 @@
-// examples/basicUsage.js
-
-const { handleError } = require("../src/main");
+// examples/basicUsag
 
 const errors = [
   `Error: Cannot read property 'x' of undefined

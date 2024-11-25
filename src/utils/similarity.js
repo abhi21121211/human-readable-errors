@@ -10,7 +10,7 @@ function getSimilarityScore(str1, str2) {
   const length2 = str2.length;
 
   // Calculate Levenshtein distance
-  const distanceMatrix = Array.from({ length: length1 + 1 }, (_, i) =>
+  const distanceMatrix = Array.from({ length: length1 + 1 }, () =>
     Array(length2 + 1).fill(0)
   );
   for (let i = 0; i <= length1; i++) distanceMatrix[i][0] = i;

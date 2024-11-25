@@ -17,4 +17,4 @@ function handleError(errorString, environment = "node", pretty = false) {
   return pretty ? prettyPrintError(result) : result;
 }
 
-module.exports = { handleError };
+export  handleError ;
