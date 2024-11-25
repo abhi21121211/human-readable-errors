@@ -1,129 +1,142 @@
 {
-  "TypeError: Cannot read property 'x' of undefined": {
-    "type": "JavaScript",
-    "description": "TypeError: Cannot read property 'x' of undefined",
-    "solution": "Check if the object is properly initialized before accessing properties.",
-    "cause": "The object being accessed is null or undefined."
-  },
-
-  "JavaScript - TypeError: Cannot read property 'x' of undefined": {
-    "type": "TypeError",
-    "solution": "Check if the object is properly initialized before accessing properties."
-  },
-  "JavaScript - ReferenceError: x is not defined": {
-    "type": "ReferenceError",
-    "solution": "Declare the variable before using it."
-  },
-  "JavaScript - SyntaxError: Unexpected token": {
-    "type": "SyntaxError",
-    "solution": "Check the code syntax, such as missing braces, semicolons, or invalid tokens."
-  },
-  "Node.js - Error: Cannot find module": {
-    "type": "ModuleError",
-    "solution": "Ensure the module is installed and correctly imported."
-  },
-  "Node.js - ECONNREFUSED: Connection refused": {
-    "type": "ConnectionError",
-    "solution": "Check if the server is running and reachable at the specified address and port."
-  },
-  "Angular - ExpressionChangedAfterItHasBeenCheckedError": {
-    "type": "AngularError",
-    "solution": "Ensure changes to bindings are done inside Angular's lifecycle hooks, not asynchronously."
-  },
-  "Angular - Template parse errors": {
-    "type": "AngularError",
-    "solution": "Check for typos or invalid Angular template syntax."
-  },
-  "React - Invalid hook call": {
-    "type": "ReactError",
-    "solution": "Ensure hooks are used in functional components and not conditionally."
-  },
-  "React - Warning: Each child in a list should have a unique 'key' prop": {
-    "type": "ReactWarning",
-    "solution": "Add a unique `key` prop to each child element in the list."
-  },
-  "Python - KeyError: 'key'": {
-    "type": "KeyError",
-    "solution": "Check if the key exists in the dictionary before accessing it, or use the `.get()` method."
-  },
-  "Python - IndexError: list index out of range": {
-    "type": "IndexError",
-    "solution": "Ensure the index you're trying to access is within the range of the list."
-  },
-  "Python - ModuleNotFoundError: No module named 'module'": {
-    "type": "ModuleNotFoundError",
-    "solution": "Ensure the module is installed and the correct environment is activated."
-  },
-  "Python - ZeroDivisionError: division by zero": {
-    "type": "ZeroDivisionError",
-    "solution": "Avoid dividing a number by zero; check the divisor before performing the operation."
-  },
-  "Go - nil pointer dereference": {
-    "type": "GoError",
-    "solution": "Check for nil before dereferencing pointers in your code."
-  },
-  "Go - index out of range": {
-    "type": "GoError",
-    "solution": "Ensure the index is within the bounds of the array or slice."
-  },
-  "Go - import cycle not allowed": {
-    "type": "GoError",
-    "solution": "Avoid circular dependencies in your imports; restructure your code to remove the cycle."
-  },
-  "Java - NullPointerException": {
-    "type": "NullPointerError",
-    "solution": "Check if the object or variable is null before accessing its methods or properties."
-  },
-  "Java - ArrayIndexOutOfBoundsException": {
-    "type": "IndexError",
-    "solution": "Ensure the index is within the bounds of the array."
-  },
-  "Java - ClassNotFoundException": {
-    "type": "ClassNotFoundError",
-    "solution": "Ensure the required class is available on the classpath."
-  },
-  "PHP - Fatal error: Call to undefined function": {
-    "type": "FunctionError",
-    "solution": "Ensure the function is defined and the necessary extensions are enabled."
-  },
-  "PHP - Parse error: syntax error, unexpected 'x'": {
-    "type": "SyntaxError",
-    "solution": "Check for syntax issues like missing semicolons or unmatched braces."
-  },
-  "PHP - Warning: Undefined variable": {
-    "type": "Warning",
-    "solution": "Declare the variable or ensure it is passed to the scope where it is used."
-  },
-  "Ruby - NameError: undefined local variable or method": {
-    "type": "NameError",
-    "solution": "Ensure the variable or method is defined and within the correct scope."
-  },
-  "Ruby - NoMethodError: undefined method": {
-    "type": "NoMethodError",
-    "solution": "Ensure the method exists and is being called on the correct object."
-  },
-  "C# - NullReferenceException": {
-    "type": "NullReferenceError",
-    "solution": "Check if the object is null before accessing its members."
-  },
-  "C# - IndexOutOfRangeException": {
-    "type": "IndexError",
-    "solution": "Ensure the index is within the bounds of the array or collection."
-  },
-  "C++ - Segmentation fault": {
-    "type": "SegmentationError",
-    "solution": "Check for invalid memory access or dereferencing null pointers."
-  },
-  "C++ - std::out_of_range": {
-    "type": "RangeError",
-    "solution": "Ensure the index or key is within the bounds of the container."
-  },
-  "General - Out of Memory": {
-    "type": "MemoryError",
-    "solution": "Optimize the memory usage or allocate more memory to the program."
-  },
-  "General - StackOverflowError": {
-    "type": "StackOverflowError",
-    "solution": "Check for infinite recursion or excessively deep function calls."
-  }
+  "errors": [
+    {
+      "error": "panic: runtime error: index out of range",
+      "description": "An attempt to access an array index that does not exist.",
+      "solution": "Check the array length before accessing an index.",
+      "cause": "The specified index is out of the array's bounds."
+    },
+    {
+      "error": "TypeError: Cannot read property 'xyz' of undefined",
+      "description": "Attempting to access a property of an undefined or null value.",
+      "solution": "Ensure that the object is defined and initialized before accessing its properties.",
+      "cause": "The referenced object or variable is undefined or null."
+    },
+    {
+      "error": "ReferenceError: foo is not defined",
+      "description": "A variable or function is being used before it has been declared or initialized.",
+      "solution": "Declare the variable or function before using it.",
+      "cause": "The variable or function is not in scope at the time of access."
+    },
+    {
+      "error": "SyntaxError: Unexpected token",
+      "description": "An unexpected or invalid token (character or symbol) in the code.",
+      "solution": "Check the syntax of the code, especially near the error location.",
+      "cause": "A typo or incorrect syntax (e.g., a missing parenthesis, bracket, etc.)."
+    },
+    {
+      "error": "Uncaught Error: Request failed with status code 404",
+      "description": "The server could not find the requested resource.",
+      "solution": "Check the URL, ensure the resource exists on the server, or handle the 404 error appropriately.",
+      "cause": "The requested URL or endpoint is incorrect or does not exist."
+    },
+    {
+      "error": "TypeError: 'undefined' is not an object (evaluating 'obj.prop')",
+      "description": "Attempting to access a property of undefined.",
+      "solution": "Check if the object is defined and initialized before accessing its properties.",
+      "cause": "The object is undefined, meaning it hasn't been created or assigned a value yet."
+    },
+    {
+      "error": "OutOfMemoryError: Java heap space",
+      "description": "The Java Virtual Machine (JVM) has run out of memory while trying to allocate more space.",
+      "solution": "Increase the Java heap size by adjusting the `-Xmx` JVM option or optimize memory usage in the application.",
+      "cause": "The application is consuming more memory than allocated, possibly due to memory leaks or large data structures."
+    },
+    {
+      "error": "ModuleNotFoundError: No module named 'xyz'",
+      "description": "A Python module could not be found.",
+      "solution": "Ensure the module is installed using `pip` or check for typos in the module name.",
+      "cause": "The required Python module is either not installed or not correctly named."
+    },
+    {
+      "error": "ImportError: cannot import name 'xyz' from 'module'",
+      "description": "Attempting to import a function or class that doesn't exist in the specified module.",
+      "solution": "Check the module for the correct function or class name and ensure it’s properly exported.",
+      "cause": "The function or class is not defined in the specified module."
+    },
+    {
+      "error": "AttributeError: 'NoneType' object has no attribute 'xyz'",
+      "description": "Attempting to access an attribute or method on a `None` (null) object in Python.",
+      "solution": "Check if the object is `None` before attempting to access its attributes or methods.",
+      "cause": "The object is `None`, and therefore doesn't have the requested attribute."
+    },
+    {
+      "error": "StackOverflowError",
+      "description": "The application’s call stack has exceeded the maximum allowed size.",
+      "solution": "Check for infinite recursion or excessive method calls in the code.",
+      "cause": "A recursive function may not have a proper base case, causing infinite recursion."
+    },
+    {
+      "error": "404 Not Found",
+      "description": "The requested resource could not be found on the server.",
+      "solution": "Verify that the requested resource exists or handle the error gracefully with a custom 404 page.",
+      "cause": "The resource doesn't exist or the URL is incorrect."
+    },
+    {
+      "error": "503 Service Unavailable",
+      "description": "The server is temporarily unable to handle the request due to a temporary overloading or maintenance of the server.",
+      "solution": "Check the server's health, resolve any overload issues, or try the request again later.",
+      "cause": "The server is overwhelmed or under maintenance."
+    },
+    {
+      "error": "ECONNREFUSED",
+      "description": "The network connection was refused by the target server.",
+      "solution": "Verify that the server is running and that the correct IP and port are used.",
+      "cause": "The server is unreachable or not accepting connections."
+    },
+    {
+      "error": "Error: connect ECONNREFUSED",
+      "description": "A network connection attempt was refused.",
+      "solution": "Ensure that the server is up and reachable, check network configurations, and retry.",
+      "cause": "The connection attempt was rejected by the target machine."
+    },
+    {
+      "error": "MySQL Error: ER_ACCESS_DENIED_ERROR",
+      "description": "Access denied to the MySQL server with the provided credentials.",
+      "solution": "Ensure that the username and password are correct and have sufficient privileges.",
+      "cause": "Incorrect login credentials or insufficient user privileges."
+    },
+    {
+      "error": "Error: ENOENT: no such file or directory",
+      "description": "A file or directory cannot be found in the specified path.",
+      "solution": "Check that the file or directory exists and that the path is correct.",
+      "cause": "The specified file or directory does not exist or the path is incorrect."
+    },
+    {
+      "error": "Error: Failed to fetch",
+      "description": "An HTTP request has failed, usually due to a network error.",
+      "solution": "Check the network connection and ensure the endpoint is correct and responsive.",
+      "cause": "Network issues, incorrect endpoint, or server issues."
+    },
+    {
+      "error": "MemoryError",
+      "description": "The Python interpreter runs out of memory.",
+      "solution": "Optimize memory usage, or increase available memory if possible.",
+      "cause": "The system ran out of memory due to inefficient code or a large data set."
+    },
+    {
+      "error": "undefined method `xyz' for nil:NilClass",
+      "description": "An attempt to call a method on a `nil` (null) object in Ruby.",
+      "solution": "Ensure the object is not `nil` before invoking the method.",
+      "cause": "The object being called is `nil` or has not been initialized."
+    },
+    {
+      "error": "Error: 'xyz' is not a valid URL",
+      "description": "The provided string is not a valid URL.",
+      "solution": "Check the URL format and ensure it follows the proper syntax.",
+      "cause": "The string provided does not conform to valid URL standards."
+    },
+    {
+      "error": "SyntaxError: unexpected end of file",
+      "description": "The code file ends unexpectedly, usually due to a missing parenthesis, bracket, or end keyword.",
+      "solution": "Check for unmatched parentheses or missing end statements.",
+      "cause": "An incomplete or improperly closed code block."
+    },
+    {
+      "error": "TypeError: x is not a function",
+      "description": "A non-function value is being invoked as a function.",
+      "solution": "Ensure the value being called is a function and not another type (e.g., string or number).",
+      "cause": "The value being invoked is not a callable function."
+    }
+  ]
 }

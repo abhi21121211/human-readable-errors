@@ -1,28 +1,34 @@
-// src/utils/similarity.js
+/**
+ * Calculate the similarity score between two strings using Levenshtein distance.
+ * @param {string} str1 - First string.
+ * @param {string} str2 - Second string.
+ * @returns {number} - Similarity score (0 to 1).
+ */
+function getSimilarityScore(str1, str2) {
+  if (!str1 || !str2) return 0;
+  const length1 = str1.length;
+  const length2 = str2.length;
 
-// Simple string similarity function to find the closest match
-function calculateSimilarity(str1, str2) {
-  const length = Math.max(str1.length, str2.length);
-  const differences = Array.from(str1).reduce(
-    (diff, char, i) => diff + (char !== str2[i] ? 1 : 0),
-    Math.abs(str1.length - str2.length)
+  // Calculate Levenshtein distance
+  const distanceMatrix = Array.from({ length: length1 + 1 }, (_, i) =>
+    Array(length2 + 1).fill(0)
   );
-  return 1 - differences / length;
-}
+  for (let i = 0; i <= length1; i++) distanceMatrix[i][0] = i;
+  for (let j = 0; j <= length2; j++) distanceMatrix[0][j] = j;
 
-function findClosestMatch(input, candidates) {
-  let closestError = null;
-  let highestSimilarity = 0;
-
-  for (const candidate in candidates) {
-    const similarity = calculateSimilarity(input, candidate);
-    if (similarity > highestSimilarity) {
-      highestSimilarity = similarity;
-      closestError = candidate;
+  for (let i = 1; i <= length1; i++) {
+    for (let j = 1; j <= length2; j++) {
+      const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+      distanceMatrix[i][j] = Math.min(
+        distanceMatrix[i - 1][j] + 1, // Deletion
+        distanceMatrix[i][j - 1] + 1, // Insertion
+        distanceMatrix[i - 1][j - 1] + cost // Substitution
+      );
     }
   }
 
-  return { closestError, similarity: highestSimilarity };
+  const levenshteinDistance = distanceMatrix[length1][length2];
+  return 1 - levenshteinDistance / Math.max(length1, length2);
 }
 
-module.exports = { calculateSimilarity, findClosestMatch };
+module.exports = { getSimilarityScore };

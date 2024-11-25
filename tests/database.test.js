@@ -1,32 +1,26 @@
 const { getErrorSolution } = require("../src/database");
 
-it("Fetches solution for a known error in a stack trace", () => {
-  const stackTrace = `
-    TypeError: Cannot read property 'x' of undefined
-        at Object.<anonymous> (index.js:10:15)
-  `;
-  const result = getErrorSolution(stackTrace);
+describe("Error Solution Fetcher", () => {
+  test("returns fallback response for an unknown error", () => {
+    const stackTrace = "UnknownError: Something went wrong!";
+    const result = getErrorSolution(stackTrace);
 
-  expect(result).toEqual({
-    type: "JavaScript",
-    description: "TypeError: Cannot read property 'x' of undefined",
-    solution:
-      "Check if the object is properly initialized before accessing properties.",
-    cause: "The object being accessed is null or undefined.",
+    expect(result).toEqual({
+      type: "Unknown",
+      description: "An unrecognized error occurred.",
+      solution: "Please refer to official documentation or debug further.",
+      cause: "Unknown error type.",
+    });
   });
-});
 
-it("Handles unknown errors in a stack trace", () => {
-  const stackTrace = `
-    UnknownError: Something went wrong
-        at SomeComponent (App.js:20:5)
-  `;
-  const result = getErrorSolution(stackTrace);
+  test("returns a close match for a similar error", () => {
+    const stackTrace = "ReferenceError: foo is not defined";
 
-  expect(result).toEqual({
-    type: "Angular", // Matches the detected source type
-    description: "UnknownError: Something went wrong",
-    solution: "Please refer to official documentation or debug further.",
-    cause: "Unknown error type.", // Default cause
+    const result = getErrorSolution(stackTrace);
+
+    expect(result).toHaveProperty("type", "JavaScript");
+    expect(result.solution).toMatch(
+      /Declare the variable or function before using it/
+    );
   });
 });

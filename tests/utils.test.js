@@ -1,15 +1,15 @@
 // tests/utils.test.js
 
-const { calculateSimilarity } = require("../src/utils/similarity");
+const { getSimilarityScore } = require("../src/utils/similarity");
 
 describe("Utils Module - Similarity", () => {
   test("Calculates similarity between two identical strings", () => {
-    const result = calculateSimilarity("error", "error");
+    const result = getSimilarityScore("error", "error");
     expect(result).toBe(1);
   });
 
   test("Calculates similarity between two different strings", () => {
-    const result = calculateSimilarity("error", "warning");
+    const result = getSimilarityScore("error", "warning");
     expect(result).toBeLessThan(1);
     expect(result).toBeGreaterThan(0);
   });
