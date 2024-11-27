@@ -1,0 +1,21 @@
+{
+  "errors": [
+    {
+      "error": "TypeError: Cannot read property 'length' of undefined",
+      "description": "Occurs when attempting to access the length property of a value that is undefined.",
+      "solution": "Ensure the variable is defined before accessing its properties.",
+      "cause": "The variable was not initialized or incorrectly assigned.",
+      "severity": "high",
+      "tags": ["runtime", "javascript"],
+      "suggestions": [
+        "Check if the variable is properly initialized.",
+        "Use a null or undefined check before accessing its properties.",
+        "Add default values to ensure the variable is always defined."
+      ],
+      "references": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undefined",
+        "https://stackoverflow.com/questions/..."
+      ]
+    }
+  ]
+}

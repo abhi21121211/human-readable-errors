@@ -7,37 +7,43 @@ import detectErrorSource from "./utils/sourceDetector.js";
 /**
  * Handles an error and provides a human-readable solution.
  * @param {string} errorString - The error message or stack trace.
- * @param {string} [environment] - The environment (e.g., 'node', 'react'). If not provided, it will be detected.
+ * @param {string} language - The programming language (e.g., "javascript").
+ * @param {string} environment - The framework/environment (e.g., 'node', 'react').
  * @param {boolean} pretty - Whether to format the output prettily.
  * @returns {object|string} - Human-readable error solution or formatted output.
  */
-function handleError(errorString, environment = "node", pretty = false) {
-  // Step 1: Detect the source of the error if the environment is not explicitly provided
-  const detectedEnvironment = environment || detectErrorSource(errorString);
-  console.log(`[DEBUG] Detected Environment: ${detectedEnvironment}`);
+function handleError(
+  errorString,
+  language = "javascript",
+  framework = "node",
+  pretty = false
+) {
+  // console.log(errorString, "fffffffffffff errorString");
 
-  // Step 2: Parse the stack trace (if present) to extract relevant details
+  const detectedEnvironment = `${language}/${framework}`;
+  // console.log(detectedEnvironment, "ffffffffffffff language");
+
   const parsedStack = parseStackTrace(errorString);
-  console.log(`[DEBUG] Parsed Stack Trace:`, parsedStack);
+  // console.log(parsedStack, "ffffffff parsedStack");
 
-  // Step 3: Parse the error using the detected environment and stack trace (if available)
-  const parsedError = parseError(
-    parsedStack?.message || errorString,
-    detectedEnvironment
+  const parsedError = parseError(errorString, detectedEnvironment);
+  // console.log(parsedError, "ffffffff parsedError");
+
+  if (parsedError.type === "UnknownError") {
+    console.warn(
+      "Warning: Unknown error type detected. Please check the input error string."
+    );
+  }
+  const solution = getErrorSolution(
+    language,
+    framework,
+    parsedError.description,
+    parsedError.type
   );
-  console.log(`[DEBUG] Parsed Error:`, parsedError);
+  // console.log(solution, "ffffffff solution");
 
-  // Step 4: Fetch a human-readable solution based on error type and description
-  const solution = getErrorSolution(parsedError.type, parsedError.description);
-  console.log(`[DEBUG] Fetched Solution:`, solution);
-
-  // Step 5: Construct the result object with all relevant details
   const result = {
-    type: parsedError.type || "UnknownError",
-    description: parsedError.description || "No description provided.",
-    file: parsedError.file || null,
-    lineNumber: parsedError.lineNumber || null,
-    columnNumber: parsedError.columnNumber || null,
+    ...parsedError,
     environment: detectedEnvironment,
     cause: solution.cause,
     solution: solution.solution,
@@ -46,7 +52,6 @@ function handleError(errorString, environment = "node", pretty = false) {
     stackTrace: parsedStack?.stackTrace || "No stack trace provided.",
   };
 
-  // Step 6: Return the result, prettified if requested
   return pretty ? prettyPrintError(result) : result;
 }
 

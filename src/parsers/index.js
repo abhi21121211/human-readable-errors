@@ -11,7 +11,8 @@ import { parseGoError } from "./goParser.js";
  * @returns {object} - Parsed error details.
  */
 function parseError(errorString, environment = null) {
-  if (environment === "node") return nodeParser(errorString);
+  if (environment === "node" || "javascript/node")
+    return nodeParser(errorString);
   if (environment === "react") return reactParser(errorString);
   if (environment === "angular") return parseAngularError(errorString);
   if (environment === "python") return parsePythonError(errorString);

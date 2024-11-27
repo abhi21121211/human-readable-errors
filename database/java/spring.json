@@ -1,0 +1,16 @@
+{
+  "errors": [
+    {
+      "error": "Error: ENOENT: no such file or directory",
+      "description": "This error occurs when a required file or directory is not found.",
+      "solution": "Check the file path and ensure it exists before accessing.",
+      "cause": "File was moved, deleted, or the path was incorrect.",
+      "severity": "medium",
+      "tags": ["filesystem", "nodejs"],
+      "references": [
+        "https://nodejs.org/api/errors.html#errors_common_system_errors",
+        "https://stackoverflow.com/questions/..."
+      ]
+    }
+  ]
+}

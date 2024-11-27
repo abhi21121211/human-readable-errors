@@ -24,7 +24,10 @@ function nodeParser(errorString) {
 
   return {
     type: errorMatch?.groups?.type || "UnknownError",
-    description: errorMatch?.groups?.description || "Unknown description",
+    description:
+      `${errorMatch?.groups?.type}: ${errorMatch?.groups?.description}` ||
+      errorMatch?.groups?.description ||
+      "Unknown description",
     file: stackMatch?.groups?.file || null,
     lineNumber: stackMatch?.groups?.line
       ? parseInt(stackMatch.groups.line, 10)
