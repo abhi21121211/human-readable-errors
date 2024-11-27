@@ -1,0 +1,51 @@
+{
+  "language": "unknown",
+  "framework": "general",
+  "errors": [
+    {
+      "type": "Unknown Language or Framework",
+      "code": "UN001",
+      "error": "Unable to determine the programming language or framework using the human-readable-errors library.",
+      "severity": "high",
+      "description": "This error occurs when the provided error message does not match any known patterns for languages or frameworks supported by the library.",
+      "cause": [
+        "The error message format might not conform to standard error messages of common languages or frameworks.",
+        "The programming language or framework used might not yet be supported in the human-readable-errors library.",
+        "The provided error message might be incomplete or ambiguous, making it difficult to identify the source."
+      ],
+      "solution": [
+        "Double-check the error message for accuracy and completeness.",
+        "Ensure that you are using a supported language or framework (e.g., JavaScript, Python, Java, Node.js, React, Django, Spring).",
+        "If the language or framework is not supported, consider contributing its error patterns to the human-readable-errors library.",
+        "Search for the error message online to find community discussions or official documentation related to the issue.",
+        "Use logging or debugging tools to gather additional context about the error."
+      ],
+      "tags": ["Error Handling", "Language Detection", "Debugging"],
+      "examples": [
+        {
+          "scenario": "Undefined Error Format",
+          "code": "let arr; console.log(arr.length);",
+          "output": "TypeError: Cannot read property 'length' of undefined",
+          "description": "This example demonstrates a common JavaScript error that occurs when trying to access a property of an undefined variable. Similar errors in other languages may have different formats."
+        },
+        {
+          "scenario": "Missing Module (Node.js)",
+          "code": "require('express');",
+          "output": "Error: Cannot find module 'express'",
+          "description": "A typical Node.js error when the required module is not installed or the module name is incorrect."
+        },
+        {
+          "scenario": "Undefined Attribute (Python)",
+          "code": "obj = None; print(obj.attribute)",
+          "output": "AttributeError: 'NoneType' object has no attribute 'attribute'",
+          "description": "A Python example where the code attempts to access an attribute of a `NoneType` object."
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+        "https://docs.python.org/3/tutorial/errors.html",
+        "https://nodejs.org/api/errors.html"
+      ]
+    }
+  ]
+}

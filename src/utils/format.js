@@ -20,17 +20,19 @@ function prettyPrintError(errorObject) {
   const stackEmoji = "📂";
   const linkEmoji = "🔗";
 
+  // console.log(errorObject, "fffffffffffffff errorObject");
   // Format causes as a bullet list
   const formattedCauses = errorObject.cause
-    .map((cause, index) => `${yellow}  ${index + 1}. ${cause}${reset}`)
+    ?.map((cause, index) => `${yellow}  ${index + 1}. ${cause}${reset}`)
     .join("\n");
 
   // Format solutions as a bullet list
   const formattedSolutions = errorObject.solution
     .map((solution, index) => `${green}  ${index + 1}. ${solution}${reset}`)
     .join("\n");
-
+  console.log(errorObject.examples, "fffffffff errorObject.examples");
   // Format examples with code and output
+
   const formattedExamples = errorObject.examples
     .map(
       (example, index) =>
