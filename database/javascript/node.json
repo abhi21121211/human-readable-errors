@@ -1,21 +1,867 @@
 {
+  "language": "javascript",
+  "framework": "node",
   "errors": [
     {
-      "error": "TypeError: Cannot read property 'length' of undefined",
-      "description": "Occurs when attempting to access the length property of a value that is undefined.",
-      "solution": "Ensure the variable is defined before accessing its properties.",
-      "cause": "The variable was not initialized or incorrectly assigned.",
+      "type": "Error",
+      "code": "NODE001",
+      "error": "Cannot find module",
       "severity": "high",
-      "tags": ["runtime", "javascript"],
-      "suggestions": [
-        "Check if the variable is properly initialized.",
-        "Use a null or undefined check before accessing its properties.",
-        "Add default values to ensure the variable is always defined."
+      "description": "Occurs when a required module cannot be found.",
+      "cause": [
+        "The module is not installed or is incorrectly named.",
+        "The `require` or `import` statement has a typo or incorrect path."
       ],
-      "references": [
-        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undefined",
-        "https://stackoverflow.com/questions/..."
+      "solution": [
+        "Ensure the module is installed by running `npm install <module_name>`.",
+        "Verify the module name and path in the `require` or `import` statement."
+      ],
+      "tags": ["Node.js", "module", "JavaScript"],
+      "examples": [
+        {
+          "code": "const myModule = require('./nonExistentModule');",
+          "output": "Error: Cannot find module './nonExistentModule'"
+        }
+      ],
+      "links": ["https://nodejs.org/api/modules.html#modules_modules"]
+    },
+    {
+      "type": "TypeError",
+      "code": "NODE002",
+      "error": "callback is not a function",
+      "severity": "medium",
+      "description": "Occurs when a callback argument is not a valid function.",
+      "cause": [
+        "The callback parameter was not passed as a function.",
+        "The code incorrectly assumed the value was a function."
+      ],
+      "solution": [
+        "Ensure the callback argument is a valid function.",
+        "Use type-checking to verify the argument before calling it."
+      ],
+      "tags": ["Node.js", "callback", "JavaScript"],
+      "examples": [
+        {
+          "code": "fs.readFile('file.txt', 'utf8', 'notAFunction');",
+          "output": "TypeError: callback is not a function"
+        }
+      ],
+      "links": [
+        "https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback"
+      ]
+    },
+    {
+      "type": "RangeError",
+      "code": "NODE003",
+      "error": "Maximum call stack size exceeded",
+      "severity": "critical",
+      "description": "Occurs when recursion or infinite loops cause stack overflow.",
+      "cause": [
+        "Infinite recursive function calls",
+        "Improperly handled recursive algorithms",
+        "Deeply nested function calls without proper termination"
+      ],
+      "solution": [
+        "Implement proper base cases in recursive functions",
+        "Use iterative approaches instead of deep recursion",
+        "Increase stack size using --stack-size flag (as a last resort)"
+      ],
+      "tags": ["Node.js", "recursion", "performance"],
+      "examples": [
+        {
+          "code": "function infiniteRecursion() {\n  infiniteRecursion();\n}",
+          "output": "RangeError: Maximum call stack size exceeded"
+        }
+      ],
+      "links": ["https://nodejs.org/api/errors.html#errors_range_error"]
+    },
+    {
+      "type": "Error",
+      "code": "NODE004",
+      "error": "Unhandled Promise Rejection",
+      "severity": "high",
+      "description": "Occurs when a Promise is rejected without a catch handler.",
+      "cause": [
+        "Asynchronous operations without proper error handling",
+        "Promises rejected without catch blocks",
+        "Async functions not using try-catch"
+      ],
+      "solution": [
+        "Always add .catch() to Promises",
+        "Use try-catch in async functions",
+        "Add global unhandled rejection handler"
+      ],
+      "tags": ["Node.js", "async", "promises"],
+      "examples": [
+        {
+          "code": "Promise.reject(new Error('Unhandled'));\n// No .catch() attached",
+          "output": "UnhandledPromiseRejectionWarning: Error: Unhandled"
+        }
+      ],
+      "links": [
+        "https://nodejs.org/api/process.html#process_event_unhandledrejection"
+      ]
+    },
+    {
+      "type": "TypeError",
+      "code": "NODE005",
+      "error": "Cannot read property of undefined",
+      "severity": "medium",
+      "description": "Occurs when attempting to access a property of an undefined object.",
+      "cause": [
+        "Accessing nested properties without null/undefined checks",
+        "Incorrect object initialization",
+        "Asynchronous data loading before object is ready"
+      ],
+      "solution": [
+        "Use optional chaining (?.) operator",
+        "Implement null/undefined checks",
+        "Use default values or conditional rendering"
+      ],
+      "tags": ["Node.js", "JavaScript", "TypeError"],
+      "examples": [
+        {
+          "code": "const obj = {};\nconsole.log(obj.nested.property);",
+          "output": "TypeError: Cannot read property 'property' of undefined"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE006",
+      "error": "Port already in use",
+      "severity": "high",
+      "description": "Occurs when trying to start a server on a port that is already occupied.",
+      "cause": [
+        "Another application is using the specified port",
+        "Previous server instance not properly closed",
+        "Multiple server instances attempting to bind to same port"
+      ],
+      "solution": [
+        "Check and kill existing processes on the port",
+        "Use a different port number",
+        "Implement proper server shutdown mechanisms"
+      ],
+      "tags": ["Node.js", "server", "networking"],
+      "examples": [
+        {
+          "code": "server.listen(3000);\n// Attempting to start another server on port 3000",
+          "output": "Error: listen EADDRINUSE :::3000"
+        }
+      ],
+      "links": ["https://nodejs.org/api/net.html#net_server_listen"]
+    },
+    {
+      "type": "TypeError",
+      "code": "NODE007",
+      "error": "Expected a function",
+      "severity": "medium",
+      "description": "Occurs when a non-function value is passed where a function is expected.",
+      "cause": [
+        "Incorrect function references",
+        "Passing variables instead of function references",
+        "Scope-related function binding issues"
+      ],
+      "solution": [
+        "Verify function references before passing",
+        "Use .bind() or arrow functions to maintain context",
+        "Check for typos in function names"
+      ],
+      "tags": ["Node.js", "JavaScript", "function"],
+      "examples": [
+        {
+          "code": "const handler = 'not a function';\nsetTimeout(handler, 1000);",
+          "output": "TypeError: handler is not a function"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Not_a_function"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE008",
+      "error": "File system operation error",
+      "severity": "high",
+      "description": "Occurs during file system operations with invalid paths or permissions.",
+      "cause": [
+        "Attempting to access files without proper permissions",
+        "Incorrect file paths",
+        "Trying to read/write to non-existent directories"
+      ],
+      "solution": [
+        "Check file and directory permissions",
+        "Verify file paths before operations",
+        "Use error handling in file system operations"
+      ],
+      "tags": ["Node.js", "filesystem", "error handling"],
+      "examples": [
+        {
+          "code": "fs.readFile('/non/existent/path', (err, data) => {});",
+          "output": "Error: ENOENT: no such file or directory"
+        }
+      ],
+      "links": ["https://nodejs.org/api/fs.html"]
+    },
+    {
+      "type": "TypeError",
+      "code": "NODE009",
+      "error": "Invalid argument type",
+      "severity": "medium",
+      "description": "Occurs when passing an argument of incorrect type to a function.",
+      "cause": [
+        "Type mismatches in function arguments",
+        "Implicit type conversions",
+        "Incorrect data type handling"
+      ],
+      "solution": [
+        "Use type checking before function calls",
+        "Implement type validation",
+        "Use TypeScript for static type checking"
+      ],
+      "tags": ["Node.js", "JavaScript", "type checking"],
+      "examples": [
+        {
+          "code": "const result = parseInt('not a number', 10);",
+          "output": "NaN"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE010",
+      "error": "Event emitter memory leak",
+      "severity": "critical",
+      "description": "Occurs when too many listeners are added to an event emitter.",
+      "cause": [
+        "Adding multiple listeners without removing them",
+        "Improper event listener management",
+        "Circular references in event handlers"
+      ],
+      "solution": [
+        "Use .removeListener() or .removeAllListeners()",
+        "Set a maximum number of listeners",
+        "Implement proper cleanup of event listeners"
+      ],
+      "tags": ["Node.js", "events", "memory management"],
+      "examples": [
+        {
+          "code": "const emitter = new EventEmitter();\nemitter.setMaxListeners(0);  // Disable limit",
+          "output": "Warning: Possible EventEmitter memory leak detected"
+        }
+      ],
+      "links": ["https://nodejs.org/api/events.html#events_event_newlistener"]
+    },
+    {
+      "type": "Error",
+      "code": "NODE011",
+      "error": "Database Connection Failure",
+      "severity": "critical",
+      "description": "Occurs when unable to establish a connection with a database.",
+      "cause": [
+        "Incorrect connection credentials",
+        "Network connectivity issues",
+        "Database server unavailable",
+        "Firewall or security restrictions"
+      ],
+      "solution": [
+        "Verify database connection string and credentials",
+        "Check network connectivity",
+        "Ensure database server is running",
+        "Validate firewall and security settings"
+      ],
+      "tags": [
+        "Node.js",
+        "database",
+        "connection",
+        "mongodb",
+        "mysql",
+        "postgresql"
+      ],
+      "examples": [
+        {
+          "code": "const mongoose = require('mongoose');\nmongoose.connect('mongodb://localhost/mydb');",
+          "output": "MongoNetworkError: failed to connect to server"
+        }
+      ],
+      "links": [
+        "https://mongoosejs.com/docs/connections.html",
+        "https://node-postgres.com/api/client"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE012",
+      "error": "JSON Parsing Error",
+      "severity": "medium",
+      "description": "Occurs when attempting to parse invalid JSON data.",
+      "cause": [
+        "Malformed JSON string",
+        "Unexpected data format",
+        "Incomplete or corrupted JSON data"
+      ],
+      "solution": [
+        "Validate JSON structure before parsing",
+        "Use try-catch blocks when parsing JSON",
+        "Implement robust error handling",
+        "Use JSON validation libraries"
+      ],
+      "tags": ["Node.js", "JSON", "parsing", "data validation"],
+      "examples": [
+        {
+          "code": "JSON.parse('{invalid: \"json\"}');",
+          "output": "SyntaxError: Unexpected token i in JSON at position 1"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE013",
+      "error": "Environment Configuration Error",
+      "severity": "high",
+      "description": "Occurs when environment variables are missing or incorrectly configured.",
+      "cause": [
+        "Missing .env file",
+        "Incomplete environment configuration",
+        "Incorrect environment variable naming",
+        "Security-related configuration issues"
+      ],
+      "solution": [
+        "Create and properly configure .env file",
+        "Use environment variable validation libraries",
+        "Implement default values for critical configurations",
+        "Use secure environment management practices"
+      ],
+      "tags": ["Node.js", "configuration", "environment", "security"],
+      "examples": [
+        {
+          "code": "const apiKey = process.env.API_KEY;  // Not set",
+          "output": "undefined"
+        }
+      ],
+      "links": [
+        "https://www.npmjs.com/package/dotenv",
+        "https://nodejs.org/api/process.html#process_process_env"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE014",
+      "error": "Authentication Middleware Failure",
+      "severity": "critical",
+      "description": "Occurs when authentication or authorization processes fail.",
+      "cause": [
+        "Invalid token or credentials",
+        "Expired authentication tokens",
+        "Incorrect middleware configuration",
+        "Security token validation errors"
+      ],
+      "solution": [
+        "Implement robust token validation",
+        "Use secure authentication libraries",
+        "Handle token expiration gracefully",
+        "Implement proper error handling in middleware"
+      ],
+      "tags": ["Node.js", "authentication", "security", "middleware"],
+      "examples": [
+        {
+          "code": "// Express JWT middleware\napp.use(jwt({ secret: 'wrong_secret' }));",
+          "output": "UnauthorizedError: Invalid token"
+        }
+      ],
+      "links": ["https://github.com/auth0/express-jwt", "https://jwt.io/"]
+    },
+    {
+      "type": "Error",
+      "code": "NODE015",
+      "error": "Socket Connection Timeout",
+      "severity": "high",
+      "description": "Occurs when network socket connections exceed timeout limits.",
+      "cause": [
+        "Poor network connectivity",
+        "Server overload",
+        "Incorrect timeout configurations",
+        "Network infrastructure issues"
+      ],
+      "solution": [
+        "Implement robust connection retry mechanisms",
+        "Adjust socket timeout settings",
+        "Use connection pooling",
+        "Implement proper error handling for network failures"
+      ],
+      "tags": ["Node.js", "networking", "socket", "timeout"],
+      "examples": [
+        {
+          "code": "const socket = new net.Socket();\nsocket.connect(80, 'example.com');",
+          "output": "Error: Connection timeout"
+        }
+      ],
+      "links": ["https://nodejs.org/api/net.html#net_class_net_socket"]
+    },
+    {
+      "type": "Error",
+      "code": "NODE016",
+      "error": "Memory Allocation Failure",
+      "severity": "critical",
+      "description": "Occurs when the application exhausts available memory resources.",
+      "cause": [
+        "Memory leaks",
+        "Inefficient memory management",
+        "Large data processing",
+        "Improper garbage collection"
+      ],
+      "solution": [
+        "Use memory profiling tools",
+        "Implement efficient memory management",
+        "Use streaming for large data processing",
+        "Optimize garbage collection strategies"
+      ],
+      "tags": ["Node.js", "performance", "memory", "optimization"],
+      "examples": [
+        {
+          "code": "// Simulating memory-intensive operation\nconst largeArray = new Array(1000000000).fill('data');",
+          "output": "FATAL ERROR: Ineffective mark-compacts near heap limit allocation failed"
+        }
+      ],
+      "links": [
+        "https://nodejs.org/en/docs/guides/debugging/",
+        "https://nodejs.org/api/process.html#process_process_memoryusage"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE017",
+      "error": "CORS Configuration Error",
+      "severity": "high",
+      "description": "Occurs when Cross-Origin Resource Sharing (CORS) is improperly configured.",
+      "cause": [
+        "Overly restrictive CORS policies",
+        "Incorrect origin configuration",
+        "Missing CORS headers",
+        "Misconfigured middleware"
+      ],
+      "solution": [
+        "Properly configure CORS middleware",
+        "Use flexible yet secure CORS settings",
+        "Implement comprehensive origin validation",
+        "Use established CORS libraries"
+      ],
+      "tags": ["Node.js", "web", "security", "cors"],
+      "examples": [
+        {
+          "code": "// Express CORS middleware\napp.use(cors({ origin: 'https://example.com' }));",
+          "output": "Access-Control-Allow-Origin header is missing"
+        }
+      ],
+      "links": [
+        "https://expressjs.com/en/resources/middleware/cors.html",
+        "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE018",
+      "error": "Dependency Version Conflict",
+      "severity": "medium",
+      "description": "Occurs when incompatible package versions create runtime conflicts.",
+      "cause": [
+        "Mismatched dependency versions",
+        "Outdated package installations",
+        "Conflicting peer dependencies",
+        "Incorrect package management"
+      ],
+      "solution": [
+        "Use package lock files",
+        "Regularly update dependencies",
+        "Use dependency management tools",
+        "Implement strict versioning"
+      ],
+      "tags": ["Node.js", "npm", "packages", "dependencies"],
+      "examples": [
+        {
+          "code": "// Attempting to use incompatible package versions\nnpm install conflicting-packages",
+          "output": "npm ERR! conflicting peer dependencies"
+        }
+      ],
+      "links": [
+        "https://docs.npmjs.com/cli/v7/configuring-npm/package-lock-json",
+        "https://nodejs.org/en/blog/vulnerability/february-2024-security-releases/"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE019",
+      "error": "Rate Limiting Middleware Error",
+      "severity": "high",
+      "description": "Occurs when request rate limiting is misconfigured or fails.",
+      "cause": [
+        "Incorrect rate limit configurations",
+        "Ineffective request tracking",
+        "Denial of service protection failures",
+        "Improper middleware implementation"
+      ],
+      "solution": [
+        "Use robust rate limiting libraries",
+        "Implement adaptive rate limiting",
+        "Configure appropriate request thresholds",
+        "Implement comprehensive error handling"
+      ],
+      "tags": ["Node.js", "security", "middleware", "rate-limiting"],
+      "examples": [
+        {
+          "code": "// Express rate limiting middleware\napp.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));",
+          "output": "Too many requests, please try again later"
+        }
+      ],
+      "links": [
+        "https://www.npmjs.com/package/express-rate-limit",
+        "https://owasp.org/www-community/controls/Rate_Limiting"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE020",
+      "error": "Async Operation Chaining Failure",
+      "severity": "medium",
+      "description": "Occurs when asynchronous operations are improperly chained or handled.",
+      "cause": [
+        "Incorrect Promise chaining",
+        "Unhandled Promise rejections",
+        "Improper async/await usage",
+        "Complex asynchronous flow management"
+      ],
+      "solution": [
+        "Use proper Promise chaining techniques",
+        "Implement comprehensive error handling",
+        "Utilize async/await with try-catch blocks",
+        "Use advanced async flow control libraries"
+      ],
+      "tags": ["Node.js", "async", "promises", "error handling"],
+      "examples": [
+        {
+          "code": "asyncFunction1()\n  .then(() => asyncFunction2())\n  .catch(error => { /* Incomplete error handling */ });",
+          "output": "Potential unhandled Promise rejection warning"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+        "https://nodejs.org/api/async_hooks.html"
       ]
     }
-  ]
+  ,
+   {
+      "type": "Error",
+      "code": "NODE021",
+      "error": "Websocket Handshake Failure",
+      "severity": "high",
+      "description": "Occurs during WebSocket connection establishment issues.",
+      "cause": [
+        "Incompatible WebSocket protocols",
+        "Authentication failures during handshake",
+        "Network connectivity problems",
+        "Server-side WebSocket configuration errors"
+      ],
+      "solution": [
+        "Validate WebSocket protocol compatibility",
+        "Implement robust handshake error handling",
+        "Check network and server configurations",
+        "Use comprehensive WebSocket libraries"
+      ],
+      "tags": ["Node.js", "websockets", "real-time", "networking"],
+      "examples": [
+        {
+          "code": "const ws = new WebSocket('ws://example.com');\nws.onopen = () => { /* Connection logic */ };",
+          "output": "WebSocket connection failed: Handshake error"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API",
+        "https://github.com/websockets/ws"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE022",
+      "error": "Microservice Communication Breakdown",
+      "severity": "critical",
+      "description": "Occurs when inter-service communication fails in a microservices architecture.",
+      "cause": [
+        "Service discovery failures",
+        "Network partition issues",
+        "Incompatible service versions",
+        "Authentication or authorization problems"
+      ],
+      "solution": [
+        "Implement circuit breaker patterns",
+        "Use robust service discovery mechanisms",
+        "Create comprehensive error handling strategies",
+        "Implement version compatibility checks"
+      ],
+      "tags": ["Node.js", "microservices", "distributed systems", "architecture"],
+      "examples": [
+        {
+          "code": "// Microservice communication attempt\nawait axios.get('http://user-service/users');",
+          "output": "Error: Connection to user-service failed"
+        }
+      ],
+      "links": [
+        "https://microservices.io/",
+        "https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE023",
+      "error": "Serverless Function Execution Timeout",
+      "severity": "high",
+      "description": "Occurs when a serverless function exceeds its maximum execution time.",
+      "cause": [
+        "Complex or long-running operations",
+        "Inefficient code implementation",
+        "External API call delays",
+        "Resource-intensive computations"
+      ],
+      "solution": [
+        "Optimize function performance",
+        "Break down complex operations",
+        "Implement proper timeout handling",
+        "Use asynchronous processing strategies"
+      ],
+      "tags": ["Node.js", "serverless", "cloud", "aws-lambda", "azure-functions"],
+      "examples": [
+        {
+          "code": "exports.handler = async (event) => {\n  // Long-running operation\n  await complexDataProcessing();\n};",
+          "output": "Function execution time exceeded maximum allowed time"
+        }
+      ],
+      "links": [
+        "https://aws.amazon.com/lambda/",
+        "https://azure.microsoft.com/en-us/services/functions/"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE024",
+      "error": "Stream Processing Failure",
+      "severity": "medium",
+      "description": "Occurs during data streaming operations with unexpected interruptions.",
+      "cause": [
+        "Incomplete data streams",
+        "Memory constraints",
+        "Incorrect stream handling",
+        "Premature stream termination"
+      ],
+      "solution": [
+        "Implement comprehensive stream error handling",
+        "Use backpressure mechanisms",
+        "Monitor stream performance",
+        "Implement robust stream piping"
+      ],
+      "tags": ["Node.js", "streams", "data processing", "performance"],
+      "examples": [
+        {
+          "code": "const readStream = fs.createReadStream('large-file.txt');\nreadStream.pipe(processStream);",
+          "output": "Stream read error: Unexpected end of stream"
+        }
+      ],
+      "links": [
+        "https://nodejs.org/api/stream.html",
+        "https://nodejs.org/en/docs/guides/backpressuring-in-streams/"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE025",
+      "error": "Machine Learning Model Loading Failure",
+      "severity": "critical",
+      "description": "Occurs when attempting to load or initialize machine learning models.",
+      "cause": [
+        "Incompatible model versions",
+        "Missing dependencies",
+        "Incorrect model configuration",
+        "Resource allocation issues"
+      ],
+      "solution": [
+        "Verify model compatibility",
+        "Ensure all required dependencies are installed",
+        "Implement comprehensive model validation",
+        "Use robust error handling for model loading"
+      ],
+      "tags": ["Node.js", "machine-learning", "AI", "tensorflow", "pytorch"],
+      "examples": [
+        {
+          "code": "const model = await tf.loadLayersModel('model.json');",
+          "output": "Model loading failed: Incompatible model format"
+        }
+      ],
+      "links": [
+        "https://www.tensorflow.org/js",
+        "https://github.com/tensorflow/tfjs"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE026",
+      "error": "Blockchain Transaction Validation Error",
+      "severity": "high",
+      "description": "Occurs during blockchain-related transaction processing.",
+      "cause": [
+        "Invalid transaction signatures",
+        "Blockchain network connectivity issues",
+        "Smart contract execution failures",
+        "Consensus mechanism conflicts"
+      ],
+      "solution": [
+        "Implement robust transaction validation",
+        "Use comprehensive error checking",
+        "Manage blockchain network connections",
+        "Implement fallback mechanisms"
+      ],
+      "tags": ["Node.js", "blockchain", "cryptocurrency", "web3"],
+      "examples": [
+        {
+          "code": "const transaction = await web3.eth.sendTransaction(txConfig);",
+          "output": "Transaction validation failed: Invalid signature"
+        }
+      ],
+      "links": [
+        "https://web3js.readthedocs.io/",
+        "https://ethereum.org/en/developers/"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE027",
+      "error": "GraphQL Query Parsing Failure",
+      "severity": "medium",
+      "description": "Occurs during GraphQL query processing and validation.",
+      "cause": [
+        "Malformed GraphQL queries",
+        "Schema validation errors",
+        "Resolver implementation issues",
+        "Complex nested query structures"
+      ],
+      "solution": [
+        "Implement comprehensive query validation",
+        "Use GraphQL schema validation",
+        "Create robust error handling in resolvers",
+        "Implement query complexity limits"
+      ],
+      "tags": ["Node.js", "GraphQL", "API", "query-parsing"],
+      "examples": [
+        {
+          "code": "const result = await graphqlServer.execute(query);",
+          "output": "GraphQL Validation Error: Invalid query structure"
+        }
+      ],
+      "links": [
+        "https://graphql.org/",
+        "https://www.apollographql.com/docs/apollo-server/"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE028",
+      "error": "Real-time Notification Delivery Failure",
+      "severity": "high",
+      "description": "Occurs during real-time notification system operations.",
+      "cause": [
+        "Push notification service errors",
+        "Device token invalidation",
+        "Network connectivity issues",
+        "Messaging queue processing failures"
+      ],
+      "solution": [
+        "Implement notification delivery retry mechanisms",
+        "Use comprehensive error handling",
+        "Manage device token lifecycle",
+        "Implement fallback notification strategies"
+      ],
+      "tags": ["Node.js", "real-time", "notifications", "push-notifications"],
+      "examples": [
+        {
+          "code": "await pushNotificationService.send(deviceToken, message);",
+          "output": "Notification delivery failed: Invalid device token"
+        }
+      ],
+      "links": [
+        "https://firebase.google.com/docs/cloud-messaging",
+        "https://developer.apple.com/notifications/"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE029",
+      "error": "Containerization Deployment Configuration Error",
+      "severity": "critical",
+      "description": "Occurs during Node.js application containerization and deployment.",
+      "cause": [
+        "Dockerfile configuration issues",
+        "Dependency conflicts in container",
+        "Resource allocation problems",
+        "Container orchestration misconfiguration"
+      ],
+      "solution": [
+        "Validate Dockerfile configurations",
+        "Use multi-stage builds",
+        "Implement comprehensive dependency management",
+        "Create robust container health checks"
+      ],
+      "tags": ["Node.js", "docker", "kubernetes", "containerization"],
+      "examples": [
+        {
+          "code": "# Dockerfile\nFROM node:14\nCOPY . /app\nRUN npm install",
+          "output": "Container build failed: Dependency installation error"
+        }
+      ],
+      "links": [
+        "https://nodejs.org/en/docs/guides/nodejs-docker-webapp/",
+        "https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/"
+      ]
+    },
+    {
+      "type": "Error",
+      "code": "NODE030",
+      "error": "Distributed Cache Synchronization Failure",
+      "severity": "high",
+      "description": "Occurs during distributed caching operations in distributed systems.",
+      "cause": [
+        "Cache consistency issues",
+        "Network partition problems",
+        "Incorrect cache invalidation",
+        "Concurrent write conflicts"
+      ],
+      "solution": [
+        "Implement cache coherence strategies",
+        "Use distributed locking mechanisms",
+        "Create comprehensive cache synchronization",
+        "Implement eventual consistency patterns"
+      ],
+      "tags": ["Node.js", "caching", "distributed-systems", "redis"],
+      "examples": [
+        {
+          "code": "await redisClient.set('key', 'value');",
+          "output": "Cache synchronization failed: Conflict detected"
+        }
+      ],
+      "links": [
+        "https://redis.io/topics/cluster-tutorial",
+        "https://github.com/NodeRedis/node-redis"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.2.0",
+    "last_updated": "2024-11-27",
+    "total_errors": 30
+  }
 }

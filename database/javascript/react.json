@@ -1,16 +1,223 @@
 {
+  "language": "javascript",
+  "framework": "react",
   "errors": [
     {
-      "error": "Error: ENOENT: no such file or directory",
-      "description": "This error occurs when a required file or directory is not found.",
-      "solution": "Check the file path and ensure it exists before accessing.",
-      "cause": "File was moved, deleted, or the path was incorrect.",
-      "severity": "medium",
-      "tags": ["filesystem", "nodejs"],
-      "references": [
-        "https://nodejs.org/api/errors.html#errors_common_system_errors",
-        "https://stackoverflow.com/questions/..."
+      "type": "Error",
+      "code": "REACT001",
+      "error": "Invalid hook call",
+      "severity": "critical",
+      "description": "Occurs when React Hooks are used incorrectly.",
+      "cause": [
+        "Hooks are called outside of a functional component or custom hook.",
+        "Multiple versions of React are loaded in the same project."
+      ],
+      "solution": [
+        "Ensure hooks are only called inside functional components or custom hooks.",
+        "Check your `node_modules` folder to ensure only one version of React is installed."
+      ],
+      "tags": ["React", "Hooks", "JavaScript"],
+      "examples": [
+        {
+          "code": "const [state, setState] = useState(0); // Outside component",
+          "output": "Error: Invalid hook call. Hooks can only be called inside the body of a function component."
+        }
+      ],
+      "links": ["https://reactjs.org/warnings/invalid-hook-call-warning.html"]
+    },
+    {
+      "type": "Error",
+      "code": "REACT002",
+      "error": "Too Many Re-renders",
+      "severity": "critical",
+      "description": "Component is causing excessive re-renders, potentially creating an infinite loop.",
+      "cause": [
+        "Updating state directly in render method",
+        "Incorrect state update in useEffect causing continuous re-renders",
+        "Circular dependency in state updates",
+        "Setting state without conditional logic"
+      ],
+      "solution": [
+        "Use useCallback to memoize functions",
+        "Implement conditional state updates",
+        "Avoid direct state mutations in render",
+        "Use useMemo for expensive computations",
+        "Add dependency arrays to useEffect hooks"
+      ],
+      "tags": ["React", "Performance", "State Management"],
+      "examples": [
+        {
+          "code": "function Component() {\n  const [count, setCount] = useState(0);\n  setCount(count + 1); // Infinite re-render\n  return <div>{count}</div>;\n}",
+          "output": "Error: Maximum update depth exceeded. React prevents infinite render loops."
+        }
+      ],
+      "links": ["https://reactjs.org/docs/hooks-reference.html#useeffect"]
+    },
+    {
+      "type": "Error",
+      "code": "REACT003",
+      "error": "Keys Missing in List Rendering",
+      "severity": "warning",
+      "description": "Missing or incorrect keys when rendering lists of components.",
+      "cause": [
+        "Not providing a unique key prop when mapping over arrays",
+        "Using array index as key for dynamically changing lists",
+        "Generating non-unique keys for list items"
+      ],
+      "solution": [
+        "Always provide a unique key prop when rendering lists",
+        "Use stable, unique identifiers like database IDs",
+        "Avoid using array index as key for dynamic lists",
+        "Ensure keys are unique across list items"
+      ],
+      "tags": ["React", "Rendering", "Performance"],
+      "examples": [
+        {
+          "code": "items.map(item => <Component>{item}</Component>)",
+          "output": "Warning: Each child in a list should have a unique 'key' prop."
+        }
+      ],
+      "links": ["https://reactjs.org/docs/lists-and-keys.html"]
+    },
+    {
+      "type": "Error",
+      "code": "REACT004",
+      "error": "Cannot Update Unmounted Component",
+      "severity": "warning",
+      "description": "Attempting to set state on a component that has already been unmounted.",
+      "cause": [
+        "Async operations completing after component unmount",
+        "Incorrect cleanup in useEffect",
+        "Race conditions in data fetching",
+        "Long-running operations not properly canceled"
+      ],
+      "solution": [
+        "Implement cleanup functions in useEffect",
+        "Use AbortController for canceling fetch requests",
+        "Create a mounted ref to track component lifecycle",
+        "Cancel all subscriptions and async tasks on component unmount"
+      ],
+      "tags": ["React", "Lifecycle", "State Management"],
+      "examples": [
+        {
+          "code": "useEffect(() => {\n  let isMounted = true;\n  fetchData().then(data => {\n    if (isMounted) setState(data);\n  });\n  return () => { isMounted = false };\n}, []);",
+          "output": "Warning: Can't perform a React state update on an unmounted component."
+        }
+      ],
+      "links": ["https://reactjs.org/docs/hooks-effect.html"]
+    },
+    {
+      "type": "Error",
+      "code": "REACT005",
+      "error": "Circular Dependency in Hooks",
+      "severity": "critical",
+      "description": "Hooks creating circular dependencies or infinite update loops.",
+      "cause": [
+        "Improper use of useEffect with state updates",
+        "Recursive state changes",
+        "Complex interdependent state management",
+        "Incorrect hook dependency arrays"
+      ],
+      "solution": [
+        "Use useReducer for complex state logic",
+        "Carefully design dependency arrays",
+        "Avoid direct state mutations",
+        "Use functional updates for state",
+        "Implement memoization techniques"
+      ],
+      "tags": ["React", "Hooks", "State Management"],
+      "examples": [
+        {
+          "code": "function Component() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    setCount(count + 1);\n  }, [count]);\n  return <div>{count}</div>;\n}",
+          "output": "Error: Maximum update depth exceeded. Circular dependency detected."
+        }
+      ],
+      "links": ["https://reactjs.org/docs/hooks-rules.html"]
+    },
+    {
+      "type": "Error",
+      "code": "REACT006",
+      "error": "Invalid Prop Types",
+      "severity": "warning",
+      "description": "Component receives props that do not match expected types.",
+      "cause": [
+        "Incorrect prop type passed from parent component",
+        "Missing PropTypes validation",
+        "Inconsistent prop type declarations",
+        "Dynamic prop generation without type checking"
+      ],
+      "solution": [
+        "Use PropTypes for runtime type checking",
+        "Implement TypeScript for compile-time type safety",
+        "Add default prop values",
+        "Use strict type validation in components"
+      ],
+      "tags": ["React", "Type Checking", "Props"],
+      "examples": [
+        {
+          "code": "function UserProfile({ name }) {\n  return <div>{name.toUpperCase()}</div>;\n}\n// name passed as number instead of string",
+          "output": "Warning: Invalid prop type. Expected string, received number."
+        }
+      ],
+      "links": ["https://reactjs.org/docs/typechecking-with-proptypes.html"]
+    },
+    {
+      "type": "Error",
+      "code": "REACT007",
+      "error": "Memory Leak in Subscriptions",
+      "severity": "warning",
+      "description": "Unhandled subscriptions causing memory leaks in components.",
+      "cause": [
+        "Not unsubscribing from external subscriptions",
+        "Persistent event listeners",
+        "WebSocket connections not closed",
+        "Interval or timeout not cleared"
+      ],
+      "solution": [
+        "Always return a cleanup function from useEffect",
+        "Clear intervals and timeouts",
+        "Unsubscribe from observables",
+        "Close WebSocket connections",
+        "Use useCallback for event handlers"
+      ],
+      "tags": ["React", "Performance", "Memory Management"],
+      "examples": [
+        {
+          "code": "useEffect(() => {\n  const subscription = observable.subscribe();\n  // Missing cleanup\n}, []);",
+          "output": "Warning: Potential memory leak. Subscription not unsubscribed."
+        }
+      ],
+      "links": [
+        "https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup"
       ]
+    },
+    {
+      "type": "Error",
+      "code": "REACT008",
+      "error": "State Mutation in Render",
+      "severity": "critical",
+      "description": "Attempting to modify state directly during the render phase.",
+      "cause": [
+        "Directly mutating state instead of using setState",
+        "Performing side effects in render method",
+        "Complex calculations during rendering",
+        "Improper state management"
+      ],
+      "solution": [
+        "Use setState or state update functions",
+        "Move complex calculations to useMemo",
+        "Avoid side effects in render",
+        "Use useEffect for state-dependent logic",
+        "Follow immutable state update patterns"
+      ],
+      "tags": ["React", "State Management", "Rendering"],
+      "examples": [
+        {
+          "code": "function Component() {\n  const [data, setData] = useState([]);\n  data.push(newItem); // Incorrect mutation\n  return <div>{data}</div>;\n}",
+          "output": "Error: Do not mutate state directly. Use immutable update patterns."
+        }
+      ],
+      "links": ["https://reactjs.org/docs/state-and-lifecycle.html"]
     }
   ]
 }

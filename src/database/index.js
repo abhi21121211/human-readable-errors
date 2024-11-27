@@ -1,5 +1,6 @@
 //src/database/index.js
 
+import { error } from "console";
 import fs from "fs";
 import path from "path";
 
@@ -39,11 +40,17 @@ function getErrorSolution(language, framework, errorDescription) {
   // console.log(exactMatch, "ffffffff exactMatch");
   if (exactMatch) {
     return {
-      type: language,
+      type: language || exactMatch.type,
+      code: exactMatch.code,
+      error: exactMatch.error,
+      severity: exactMatch.severity,
+
       description: exactMatch.description,
-      solution: exactMatch.solution,
       cause: exactMatch.cause,
-      suggestions: exactMatch.suggestions,
+      solution: exactMatch.solution,
+      examples: exactMatch.examples,
+      reference: exactMatch.links,
+
       matchScore: "1.00",
     };
   }

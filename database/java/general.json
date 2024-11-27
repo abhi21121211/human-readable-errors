@@ -1,15 +1,882 @@
 {
+  "language": "java",
+  "framework": "general",
   "errors": [
     {
-      "error": "Error: ENOENT: no such file or directory",
-      "description": "This error occurs when a required file or directory is not found.",
-      "solution": "Check the file path and ensure it exists before accessing.",
-      "cause": "File was moved, deleted, or the path was incorrect.",
-      "severity": "medium",
-      "tags": ["filesystem", "nodejs"],
-      "references": [
-        "https://nodejs.org/api/errors.html#errors_common_system_errors",
-        "https://stackoverflow.com/questions/..."
+      "type": "NullPointerException",
+      "code": "JAVA001",
+      "error": "Null Object Reference",
+      "severity": "High",
+      "description": "Occurs when attempting to use a reference variable that points to a null object",
+      "cause": [
+        "Uninitialized object reference",
+        "Incorrect object initialization",
+        "Method returning null unexpectedly"
+      ],
+      "solution": [
+        "Use null checks before accessing object methods",
+        "Initialize objects before use",
+        "Use Optional<> for potentially null values",
+        "Use Objects.requireNonNull() for mandatory references"
+      ],
+      "tags": ["runtime-error", "object-handling", "nullability"],
+      "examples": [
+        {
+          "code": "String str = null;\nint length = str.length(); // Throws NullPointerException",
+          "output": "Exception in thread \"main\" java.lang.NullPointerException"
+        },
+        {
+          "code": "if (str != null) {\n    int length = str.length(); // Safe approach\n}",
+          "output": "No exception"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html"
+      ]
+    },
+    {
+      "type": "ArrayIndexOutOfBoundsException",
+      "code": "JAVA002",
+      "error": "Array Index Violation",
+      "severity": "High",
+      "description": "Thrown when attempting to access an array with an invalid index",
+      "cause": [
+        "Accessing array with negative index",
+        "Accessing index beyond array length",
+        "Loop iteration exceeding array bounds"
+      ],
+      "solution": [
+        "Always validate array indices before access",
+        "Use array.length property to check bounds",
+        "Implement safe iteration mechanisms",
+        "Use enhanced for-loops or stream operations"
+      ],
+      "tags": ["runtime-error", "array-handling", "index-access"],
+      "examples": [
+        {
+          "code": "int[] arr = {1, 2, 3};\nSystem.out.println(arr[3]); // Throws ArrayIndexOutOfBoundsException",
+          "output": "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException"
+        },
+        {
+          "code": "for (int i = 0; i < arr.length; i++) {\n    System.out.println(arr[i]); // Safe iteration\n}",
+          "output": "1\n2\n3"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/ArrayIndexOutOfBoundsException.html"
+      ]
+    },
+    {
+      "type": "ClassCastException",
+      "code": "JAVA003",
+      "error": "Incorrect Type Casting",
+      "severity": "High",
+      "description": "Occurs when attempting to cast an object to a class it is not an instance of",
+      "cause": [
+        "Inappropriate type casting",
+        "Inheritance hierarchy misunderstandings",
+        "Incorrect generic type handling"
+      ],
+      "solution": [
+        "Use instanceof operator before casting",
+        "Implement proper type checking",
+        "Use generics with type safety",
+        "Prefer polymorphic method invocation"
+      ],
+      "tags": ["runtime-error", "type-casting", "type-safety"],
+      "examples": [
+        {
+          "code": "Object obj = \"Hello\";\nInteger number = (Integer) obj; // Throws ClassCastException",
+          "output": "Exception in thread \"main\" java.lang.ClassCastException"
+        },
+        {
+          "code": "if (obj instanceof Integer) {\n    Integer number = (Integer) obj; // Safe casting\n}",
+          "output": "No exception"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/ClassCastException.html"
+      ]
+    },
+    {
+      "type": "NumberFormatException",
+      "code": "JAVA004",
+      "error": "Invalid Number Parsing",
+      "severity": "Medium",
+      "description": "Thrown when attempting to convert a string to a numeric type fails",
+      "cause": [
+        "Parsing non-numeric strings",
+        "Incorrect number format",
+        "Locale-specific number representations"
+      ],
+      "solution": [
+        "Use try-catch for parsing operations",
+        "Validate input before parsing",
+        "Use NumberFormat or DecimalFormat for complex parsing",
+        "Implement robust input validation"
+      ],
+      "tags": ["runtime-error", "parsing", "type-conversion"],
+      "examples": [
+        {
+          "code": "String value = \"12.34.56\";\nint number = Integer.parseInt(value); // Throws NumberFormatException",
+          "output": "Exception in thread \"main\" java.lang.NumberFormatException"
+        },
+        {
+          "code": "try {\n    int number = Integer.parseInt(value);\n} catch (NumberFormatException e) {\n    // Handle parsing error\n}",
+          "output": "Graceful error handling"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/NumberFormatException.html"
+      ]
+    },
+    {
+      "type": "IOException",
+      "code": "JAVA005",
+      "error": "Input/Output Operation Failure",
+      "severity": "High",
+      "description": "Occurs during failed or interrupted I/O operations",
+      "cause": [
+        "File not found",
+        "Insufficient permissions",
+        "Network connectivity issues",
+        "Resource exhaustion"
+      ],
+      "solution": [
+        "Use try-with-resources for automatic resource management",
+        "Implement comprehensive error handling",
+        "Check file existence before operations",
+        "Provide meaningful error messages",
+        "Use proper file path resolution"
+      ],
+      "tags": ["checked-exception", "file-handling", "resource-management"],
+      "examples": [
+        {
+          "code": "FileReader reader = new FileReader(\"nonexistent.txt\"); // Throws FileNotFoundException",
+          "output": "Exception in thread \"main\" java.io.FileNotFoundException"
+        },
+        {
+          "code": "try (FileReader reader = new FileReader(file)) {\n    // Safe file reading\n} catch (IOException e) {\n    // Handle I/O errors\n}",
+          "output": "Graceful error handling"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html"
+      ]
+    },
+    {
+      "type": "ConcurrentModificationException",
+      "code": "JAVA006",
+      "error": "Concurrent Collection Modification",
+      "severity": "High",
+      "description": "Thrown when a collection is modified while being iterated",
+      "cause": [
+        "Modifying a collection during iteration",
+        "Parallel modification of shared collections",
+        "Unsafe multi-threaded collection access"
+      ],
+      "solution": [
+        "Use Iterator's remove() method",
+        "Create copy of collection before modification",
+        "Use concurrent collection classes",
+        "Implement thread-safe iteration mechanisms"
+      ],
+      "tags": ["runtime-error", "concurrency", "collection-handling"],
+      "examples": [
+        {
+          "code": "List<String> list = new ArrayList<>(Arrays.asList(\"A\", \"B\", \"C\"));\nfor (String item : list) {\n    list.remove(item); // Throws ConcurrentModificationException\n}",
+          "output": "Exception in thread \"main\" java.util.ConcurrentModificationException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/util/ConcurrentModificationException.html"
+      ]
+    },
+    {
+      "type": "IllegalArgumentException",
+      "code": "JAVA007",
+      "error": "Invalid Method Argument",
+      "severity": "Medium",
+      "description": "Indicates that a method has been invoked with an inappropriate argument",
+      "cause": [
+        "Passing null to a method expecting a non-null value",
+        "Providing out-of-range values",
+        "Violating method preconditions"
+      ],
+      "solution": [
+        "Validate input parameters before method invocation",
+        "Use input validation annotations",
+        "Implement robust parameter checking",
+        "Use defensive programming techniques"
+      ],
+      "tags": ["runtime-error", "method-invocation", "input-validation"],
+      "examples": [
+        {
+          "code": "public void processAge(int age) {\n    if (age < 0) {\n        throw new IllegalArgumentException(\"Age cannot be negative\");\n    }\n}\nprocessAge(-5); // Throws IllegalArgumentException",
+          "output": "Exception in thread \"main\" java.lang.IllegalArgumentException: Age cannot be negative"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html"
+      ]
+    },
+    {
+      "type": "ConcurrentModificationException",
+      "code": "JAVA008",
+      "error": "Unsafe Collection Modification",
+      "severity": "High",
+      "description": "Occurs when attempting to modify a collection during iteration",
+      "cause": [
+        "Modifying collection while iterating",
+        "Parallel modification in multi-threaded environments",
+        "Incorrect synchronization"
+      ],
+      "solution": [
+        "Use thread-safe collections",
+        "Create collection copies before modification",
+        "Use concurrent modification-safe iteration patterns"
+      ],
+      "tags": ["runtime-error", "concurrency", "collection-handling"],
+      "examples": [
+        {
+          "code": "List<String> list = new ArrayList<>(Arrays.asList(\"A\", \"B\", \"C\"));\nfor (String item : list) {\n    list.remove(item); // Throws ConcurrentModificationException\n}",
+          "output": "Exception in thread \"main\" java.util.ConcurrentModificationException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/util/ConcurrentModificationException.html"
+      ]
+    },
+    {
+      "type": "StackOverflowError",
+      "code": "JAVA009",
+      "error": "Recursive Method Overflow",
+      "severity": "Critical",
+      "description": "Occurs when method call stack exceeds maximum stack depth",
+      "cause": [
+        "Infinite recursion",
+        "Deeply nested recursive calls",
+        "Lack of base case in recursive methods"
+      ],
+      "solution": [
+        "Implement proper base cases in recursive methods",
+        "Use tail-call optimization",
+        "Convert recursion to iterative approaches",
+        "Increase stack size for complex recursions"
+      ],
+      "tags": ["runtime-error", "recursion", "memory-management"],
+      "examples": [
+        {
+          "code": "public void infiniteRecursion() {\n    infiniteRecursion(); // No base case\n}\ninfiniteRecursion(); // Throws StackOverflowError",
+          "output": "Exception in thread \"main\" java.lang.StackOverflowError"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/StackOverflowError.html"
+      ]
+    },
+    {
+      "type": "OutOfMemoryError",
+      "code": "JAVA010",
+      "error": "Memory Allocation Failure",
+      "severity": "Critical",
+      "description": "Indicates that the Java Virtual Machine cannot allocate more memory",
+      "cause": [
+        "Excessive object creation",
+        "Memory leaks",
+        "Large data structure allocations",
+        "Insufficient heap space"
+      ],
+      "solution": [
+        "Optimize memory usage",
+        "Use memory profiling tools",
+        "Implement object pooling",
+        "Increase heap size",
+        "Properly manage object references"
+      ],
+      "tags": ["runtime-error", "memory-management", "resource-exhaustion"],
+      "examples": [
+        {
+          "code": "List<byte[]> list = new ArrayList<>();\nwhile (true) {\n    list.add(new byte[1024 * 1024]); // Creates massive memory consumption\n}",
+          "output": "Exception in thread \"main\" java.lang.OutOfMemoryError: Java heap space"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/OutOfMemoryError.html"
+      ]
+    },
+    {
+      "type": "SQLException",
+      "code": "JAVA011",
+      "error": "Database Operation Failure",
+      "severity": "High",
+      "description": "Occurs during database connectivity or query execution issues",
+      "cause": [
+        "Invalid database connection",
+        "Incorrect SQL syntax",
+        "Network connectivity problems",
+        "Insufficient database permissions"
+      ],
+      "solution": [
+        "Implement comprehensive exception handling",
+        "Use connection pooling",
+        "Validate database credentials",
+        "Log detailed error information",
+        "Implement retry mechanisms"
+      ],
+      "tags": ["checked-exception", "database", "connectivity"],
+      "examples": [
+        {
+          "code": "Connection conn = DriverManager.getConnection(invalidUrl, username, password);\n// Throws SQLException if connection fails",
+          "output": "Exception in thread \"main\" java.sql.SQLException: Connection error"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/sql/SQLException.html"
+      ]
+    },
+    {
+      "type": "ParseException",
+      "code": "JAVA012",
+      "error": "Parsing Operation Failure",
+      "severity": "Medium",
+      "description": "Thrown when parsing a string to a specific format fails",
+      "cause": [
+        "Invalid date/time formats",
+        "Unexpected string content",
+        "Locale-specific parsing issues"
+      ],
+      "solution": [
+        "Use try-catch for parsing operations",
+        "Validate input before parsing",
+        "Implement robust error handling",
+        "Use modern java.time APIs"
+      ],
+      "tags": ["checked-exception", "parsing", "type-conversion"],
+      "examples": [
+        {
+          "code": "SimpleDateFormat sdf = new SimpleDateFormat(\"yyyy-MM-dd\");\nDate date = sdf.parse(\"2023/13/45\"); // Throws ParseException",
+          "output": "Exception in thread \"main\" java.text.ParseException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/text/ParseException.html"
+      ]
+    },
+    {
+      "type": "InterruptedException",
+      "code": "JAVA013",
+      "error": "Thread Interruption",
+      "severity": "Medium",
+      "description": "Indicates that a thread has been interrupted during execution",
+      "cause": [
+        "Explicit thread interruption",
+        "Blocking method calls",
+        "Concurrent thread management"
+      ],
+      "solution": [
+        "Handle interruptions gracefully",
+        "Implement proper thread lifecycle management",
+        "Use modern concurrency utilities",
+        "Restore interrupt status when catching"
+      ],
+      "tags": ["checked-exception", "concurrency", "thread-management"],
+      "examples": [
+        {
+          "code": "Thread.sleep(5000); // May throw InterruptedException\n// If thread is interrupted during sleep",
+          "output": "Exception in thread \"main\" java.lang.InterruptedException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html"
+      ]
+    },
+    {
+      "type": "NoSuchMethodException",
+      "code": "JAVA014",
+      "error": "Method Lookup Failure",
+      "severity": "Medium",
+      "description": "Occurs when attempting to access a non-existent method through reflection",
+      "cause": [
+        "Incorrect method name",
+        "Mismatched method parameters",
+        "Dynamic method resolution failures",
+        "Class loading issues"
+      ],
+      "solution": [
+        "Verify method signature exactly",
+        "Use proper reflection techniques",
+        "Implement comprehensive error checking",
+        "Use getMethod() with precise parameter types"
+      ],
+      "tags": ["reflection", "method-resolution", "runtime-error"],
+      "examples": [
+        {
+          "code": "Class<?> clazz = MyClass.class;\nMethod method = clazz.getMethod(\"nonExistentMethod\"); // Throws NoSuchMethodException",
+          "output": "Exception in thread \"main\" java.lang.NoSuchMethodException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/NoSuchMethodException.html"
+      ]
+    },
+    {
+      "type": "SecurityException",
+      "code": "JAVA015",
+      "error": "Security Violation",
+      "severity": "High",
+      "description": "Indicates a security manager has denied access to a resource",
+      "cause": [
+        "Insufficient security permissions",
+        "Restricted system resource access",
+        "Violation of security policy",
+        "Unauthorized operations"
+      ],
+      "solution": [
+        "Configure appropriate security manager",
+        "Use proper security policies",
+        "Implement least privilege principle",
+        "Request explicit permissions"
+      ],
+      "tags": ["security", "access-control", "runtime-error"],
+      "examples": [
+        {
+          "code": "System.setSecurityManager(new SecurityManager());\nSystem.exit(0); // May throw SecurityException in restricted environments",
+          "output": "Exception in thread \"main\" java.lang.SecurityException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/SecurityException.html"
+      ]
+    },
+    {
+      "type": "ClassNotFoundException",
+      "code": "JAVA016",
+      "error": "Class Loading Failure",
+      "severity": "High",
+      "description": "Occurs when attempting to load a class that cannot be found",
+      "cause": [
+        "Missing class in classpath",
+        "Incorrect fully qualified class name",
+        "Dependency management issues",
+        "Dynamic class loading failures"
+      ],
+      "solution": [
+        "Verify classpath configuration",
+        "Check import statements",
+        "Use proper class loading mechanisms",
+        "Implement comprehensive error handling"
+      ],
+      "tags": ["class-loading", "runtime-error", "dependency-management"],
+      "examples": [
+        {
+          "code": "Class.forName(\"com.example.NonExistentClass\"); // Throws ClassNotFoundException",
+          "output": "Exception in thread \"main\" java.lang.ClassNotFoundException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/ClassNotFoundException.html"
+      ]
+    },
+    {
+      "type": "IllegalAccessException",
+      "code": "JAVA017",
+      "error": "Unauthorized Method Access",
+      "severity": "High",
+      "description": "Indicates an attempt to access a method or field that is not accessible",
+      "cause": [
+        "Accessing private methods/fields",
+        "Reflection access to restricted members",
+        "Security manager restrictions"
+      ],
+      "solution": [
+        "Use proper access modifiers",
+        "Implement explicit access checks",
+        "Use setAccessible(true) for reflection",
+        "Respect encapsulation principles"
+      ],
+      "tags": ["reflection", "access-control", "runtime-error"],
+      "examples": [
+        {
+          "code": "Method privateMethod = MyClass.class.getDeclaredMethod(\"privateMethod\");\nprivateMethod.invoke(object); // Throws IllegalAccessException without setAccessible(true)",
+          "output": "Exception in thread \"main\" java.lang.IllegalAccessException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalAccessException.html"
+      ]
+    },
+    {
+      "type": "InstantiationException",
+      "code": "JAVA018",
+      "error": "Object Instantiation Failure",
+      "severity": "High",
+      "description": "Occurs when attempting to create an instance of an abstract class or interface",
+      "cause": [
+        "Trying to instantiate abstract classes",
+        "Interfaces without concrete implementations",
+        "Classes without no-arg constructors"
+      ],
+      "solution": [
+        "Use concrete class implementations",
+        "Implement factory methods",
+        "Provide no-arg constructors",
+        "Use dependency injection frameworks"
+      ],
+      "tags": ["object-creation", "runtime-error", "reflection"],
+      "examples": [
+        {
+          "code": "Class<?> abstractClass = AbstractClass.class;\nabstractClass.newInstance(); // Throws InstantiationException",
+          "output": "Exception in thread \"main\" java.lang.InstantiationException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/InstantiationException.html"
+      ]
+    },
+    {
+      "type": "ArithmeticException",
+      "code": "JAVA019",
+      "error": "Arithmetic Operation Error",
+      "severity": "Medium",
+      "description": "Occurs during illegal arithmetic operations",
+      "cause": [
+        "Division by zero",
+        "Overflow in numeric operations",
+        "Undefined mathematical operations"
+      ],
+      "solution": [
+        "Check divisor before division",
+        "Use BigDecimal for precise calculations",
+        "Implement range checking",
+        "Handle edge cases explicitly"
+      ],
+      "tags": ["runtime-error", "numeric-operations", "mathematics"],
+      "examples": [
+        {
+          "code": "int result = 10 / 0; // Throws ArithmeticException\n// Division by zero",
+          "output": "Exception in thread \"main\" java.lang.ArithmeticException: / by zero"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/ArithmeticException.html"
+      ]
+    },
+    {
+      "type": "RejectedExecutionException",
+      "code": "JAVA020",
+      "error": "Thread Pool Execution Rejection",
+      "severity": "High",
+      "description": "Thrown when a thread pool cannot accept a new task for execution",
+      "cause": [
+        "Executor service shutdown",
+        "Thread pool queue saturation",
+        "Resource exhaustion",
+        "Improper thread pool configuration"
+      ],
+      "solution": [
+        "Implement proper thread pool sizing",
+        "Use bounded queue configurations",
+        "Handle rejected execution gracefully",
+        "Monitor thread pool metrics"
+      ],
+      "tags": ["concurrency", "thread-management", "runtime-error"],
+      "examples": [
+        {
+          "code": "ExecutorService executor = Executors.newFixedThreadPool(5);\nexecutor.shutdown();\nexecutor.execute(() -> System.out.println(\"Task\")); // Throws RejectedExecutionException",
+          "output": "Exception in thread \"main\" java.util.concurrent.RejectedExecutionException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/RejectedExecutionException.html"
+      ]
+    },
+    {
+      "type": "InvocationTargetException",
+      "code": "JAVA021",
+      "error": "Method Invocation Internal Error",
+      "severity": "High",
+      "description": "Wraps an exception thrown by an invoked method during reflection",
+      "cause": [
+        "Exception in the invoked method",
+        "Unexpected runtime errors",
+        "Complex method execution failures"
+      ],
+      "solution": [
+        "Unwrap and handle the original exception",
+        "Implement comprehensive error handling",
+        "Use proper exception propagation",
+        "Log detailed error information"
+      ],
+      "tags": ["reflection", "exception-handling", "runtime-error"],
+      "examples": [
+        {
+          "code": "Method method = MyClass.class.getMethod(\"riskyMethod\");\nmethod.invoke(object); // May throw InvocationTargetException if method throws an exception",
+          "output": "Exception in thread \"main\" java.lang.reflect.InvocationTargetException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/InvocationTargetException.html"
+      ]
+    },
+    {
+      "type": "TimeoutException",
+      "code": "JAVA022",
+      "error": "Operation Time Limit Exceeded",
+      "severity": "Medium",
+      "description": "Indicates that an operation has timed out",
+      "cause": [
+        "Long-running operations",
+        "Network latency",
+        "Resource contention",
+        "Inefficient algorithm execution"
+      ],
+      "solution": [
+        "Implement proper timeout mechanisms",
+        "Use concurrent utility timeouts",
+        "Design responsive thread management",
+        "Optimize long-running operations"
+      ],
+      "tags": ["concurrency", "performance", "runtime-error"],
+      "examples": [
+        {
+          "code": "Future<String> future = executor.submit(() -> longRunningTask());\nfuture.get(1, TimeUnit.SECONDS); // Throws TimeoutException if task exceeds 1 second",
+          "output": "Exception in thread \"main\" java.util.concurrent.TimeoutException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeoutException.html"
+      ]
+    },
+    {
+      "type": "FileNotFoundException",
+      "code": "JAVA023",
+      "error": "File Access Failure",
+      "severity": "High",
+      "description": "Occurs when attempting to access a file that does not exist",
+      "cause": [
+        "Incorrect file path",
+        "Insufficient file permissions",
+        "Deleted or moved files",
+        "Case-sensitive file system issues"
+      ],
+      "solution": [
+        "Verify file path accuracy",
+        "Check file existence before access",
+        "Use absolute paths",
+        "Implement robust file handling",
+        "Handle path resolution carefully"
+      ],
+      "tags": ["file-handling", "io-operations", "runtime-error"],
+      "examples": [
+        {
+          "code": "FileInputStream fis = new FileInputStream(\"nonexistent.txt\"); // Throws FileNotFoundException",
+          "output": "Exception in thread \"main\" java.io.FileNotFoundException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/io/FileNotFoundException.html"
+      ]
+    },
+    {
+      "type": "URISyntaxException",
+      "code": "JAVA024",
+      "error": "Invalid URI Format",
+      "severity": "Medium",
+      "description": "Indicates malformed Uniform Resource Identifier (URI)",
+      "cause": [
+        "Incorrect URL formatting",
+        "Invalid character sequences",
+        "Malformed protocol specifications",
+        "Incomplete URI components"
+      ],
+      "solution": [
+        "Validate URI before parsing",
+        "Use URI validation libraries",
+        "Implement robust error handling",
+        "Encode special characters properly"
+      ],
+      "tags": ["network", "uri-handling", "parsing"],
+      "examples": [
+        {
+          "code": "URI uri = new URI(\"http://example.com/ invalid space\"); // Throws URISyntaxException",
+          "output": "Exception in thread \"main\" java.net.URISyntaxException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/net/URISyntaxException.html"
+      ]
+    },
+    {
+      "type": "SAXException",
+      "code": "JAVA025",
+      "error": "XML Parsing Failure",
+      "severity": "Medium",
+      "description": "Occurs during XML document processing errors",
+      "cause": [
+        "Malformed XML structure",
+        "Invalid XML syntax",
+        "Namespace conflicts",
+        "Incomplete XML documents"
+      ],
+      "solution": [
+        "Validate XML before parsing",
+        "Use XML schema validation",
+        "Implement comprehensive error handling",
+        "Use robust XML parsing libraries"
+      ],
+      "tags": ["xml-processing", "parsing", "data-handling"],
+      "examples": [
+        {
+          "code": "SAXParser parser = SAXParserFactory.newInstance().newSAXParser();\nparser.parse(invalidXmlFile, handler); // Throws SAXException for malformed XML",
+          "output": "Exception in thread \"main\" org.xml.sax.SAXException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/org/xml/sax/SAXException.html"
+      ]
+    },
+    {
+      "type": "JSONException",
+      "code": "JAVA026",
+      "error": "JSON Processing Error",
+      "severity": "Medium",
+      "description": "Indicates errors during JSON parsing or generation",
+      "cause": [
+        "Malformed JSON structure",
+        "Invalid JSON syntax",
+        "Type mismatches",
+        "Incomplete JSON documents"
+      ],
+      "solution": [
+        "Use robust JSON parsing libraries",
+        "Implement comprehensive validation",
+        "Handle parsing errors gracefully",
+        "Validate JSON schema"
+      ],
+      "tags": ["json-processing", "parsing", "data-handling"],
+      "examples": [
+        {
+          "code": "JSONObject json = new JSONObject(\"{invalid json}\"); // Throws JSONException",
+          "output": "Exception in thread \"main\" org.json.JSONException"
+        }
+      ],
+      "links": ["https://github.com/stleary/JSON-java"]
+    },
+    {
+      "type": "SocketException",
+      "code": "JAVA027",
+      "error": "Network Socket Failure",
+      "severity": "High",
+      "description": "Occurs during network communication errors",
+      "cause": [
+        "Connection reset",
+        "Network unavailability",
+        "Socket timeout",
+        "Insufficient network resources"
+      ],
+      "solution": [
+        "Implement robust network error handling",
+        "Use connection timeout mechanisms",
+        "Implement reconnection strategies",
+        "Handle network interruptions gracefully"
+      ],
+      "tags": ["network", "socket-programming", "connectivity"],
+      "examples": [
+        {
+          "code": "Socket socket = new Socket(\"example.com\", 8080);\n// Throws SocketException for network-related issues",
+          "output": "Exception in thread \"main\" java.net.SocketException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/net/SocketException.html"
+      ]
+    },
+    {
+      "type": "ParserConfigurationException",
+      "code": "JAVA028",
+      "error": "XML Parser Configuration Error",
+      "severity": "Medium",
+      "description": "Indicates issues with XML parser configuration",
+      "cause": [
+        "Incompatible parser settings",
+        "Missing XML parsing libraries",
+        "Incorrect factory configuration",
+        "Unsupported XML features"
+      ],
+      "solution": [
+        "Verify XML parser configurations",
+        "Use standard parsing factories",
+        "Handle configuration errors explicitly",
+        "Update XML parsing libraries"
+      ],
+      "tags": ["xml-processing", "configuration", "parsing"],
+      "examples": [
+        {
+          "code": "DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();\nDocumentBuilder builder = factory.newDocumentBuilder(); // May throw ParserConfigurationException",
+          "output": "Exception in thread \"main\" javax.xml.parsers.ParserConfigurationException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/ParserConfigurationException.html"
+      ]
+    },
+    {
+      "type": "TransformerException",
+      "code": "JAVA029",
+      "error": "XML Transformation Failure",
+      "severity": "Medium",
+      "description": "Occurs during XML document transformation processes",
+      "cause": [
+        "Invalid transformation rules",
+        "Incompatible XML structures",
+        "XSLT processing errors",
+        "Resource limitations"
+      ],
+      "solution": [
+        "Validate transformation parameters",
+        "Implement comprehensive error handling",
+        "Use robust XSLT processing",
+        "Verify XML and XSLT compatibility"
+      ],
+      "tags": ["xml-processing", "transformation", "data-handling"],
+      "examples": [
+        {
+          "code": "Transformer transformer = TransformerFactory.newInstance().newTransformer();\ntransformer.transform(source, result); // May throw TransformerException",
+          "output": "Exception in thread \"main\" javax.xml.transform.TransformerException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/javax/xml/transform/TransformerException.html"
+      ]
+    },
+    {
+      "type": "GeneralSecurityException",
+      "code": "JAVA030",
+      "error": "Cryptographic Operation Failure",
+      "severity": "High",
+      "description": "Indicates errors in security and cryptographic operations",
+      "cause": [
+        "Invalid cryptographic algorithms",
+        "Incorrect key configurations",
+        "Unsupported encryption methods",
+        "Security provider issues"
+      ],
+      "solution": [
+        "Use standard cryptographic libraries",
+        "Implement robust key management",
+        "Handle security exceptions explicitly",
+        "Verify security provider configurations"
+      ],
+      "tags": ["security", "cryptography", "runtime-error"],
+      "examples": [
+        {
+          "code": "Cipher cipher = Cipher.getInstance(\"InvalidAlgorithm\"); // Throws GeneralSecurityException",
+          "output": "Exception in thread \"main\" java.security.GeneralSecurityException"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/security/GeneralSecurityException.html"
       ]
     }
   ]

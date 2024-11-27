@@ -44,10 +44,9 @@ function handleError(
 
   const result = {
     ...parsedError,
+    ...solution,
     environment: detectedEnvironment,
-    cause: solution.cause,
-    solution: solution.solution,
-    suggestions: solution.suggestions || [],
+
     matchScore: solution.matchScore || "N/A",
     stackTrace: parsedStack?.stackTrace || "No stack trace provided.",
   };

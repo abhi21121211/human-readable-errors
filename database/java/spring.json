@@ -1,15 +1,300 @@
 {
+  "language": "java",
+  "framework": "spring",
   "errors": [
     {
-      "error": "Error: ENOENT: no such file or directory",
-      "description": "This error occurs when a required file or directory is not found.",
-      "solution": "Check the file path and ensure it exists before accessing.",
-      "cause": "File was moved, deleted, or the path was incorrect.",
-      "severity": "medium",
-      "tags": ["filesystem", "nodejs"],
-      "references": [
-        "https://nodejs.org/api/errors.html#errors_common_system_errors",
-        "https://stackoverflow.com/questions/..."
+      "type": "NullPointerException",
+      "code": "SPR001",
+      "error": "Null Object Reference",
+      "severity": "High",
+      "description": "Occurs when attempting to use a reference variable that points to a null object",
+      "cause": [
+        "Uninitialized object reference",
+        "Incorrect object initialization",
+        "Method returning null unexpectedly"
+      ],
+      "solution": [
+        "Use null checks before accessing object methods",
+        "Initialize objects before use",
+        "Use Optional<> for potentially null values",
+        "Use Objects.requireNonNull() for mandatory references"
+      ],
+      "tags": ["runtime-error", "object-handling", "nullability"],
+      "examples": [
+        {
+          "code": "String str = null;\nint length = str.length(); // Throws NullPointerException",
+          "output": "Exception in thread \"main\" java.lang.NullPointerException"
+        },
+        {
+          "code": "if (str != null) {\n    int length = str.length(); // Safe approach\n}",
+          "output": "No exception"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html"
+      ]
+    },
+    {
+      "type": "ClassCastException",
+      "code": "SPR002",
+      "error": "Incompatible Type Conversion",
+      "severity": "High",
+      "description": "Occurs when attempting to cast an object to a class it is not an instance of",
+      "cause": [
+        "Incorrect type casting",
+        "Unexpected object type in collection",
+        "Generics type mismatch"
+      ],
+      "solution": [
+        "Use instanceof check before casting",
+        "Implement proper type checking",
+        "Use generics with type parameters",
+        "Utilize type-safe collections"
+      ],
+      "tags": ["runtime-error", "type-casting", "type-safety"],
+      "examples": [
+        {
+          "code": "Object obj = \"Hello\";\nInteger num = (Integer) obj; // Throws ClassCastException",
+          "output": "Exception in thread \"main\" java.lang.ClassCastException"
+        },
+        {
+          "code": "if (obj instanceof Integer) {\n    Integer num = (Integer) obj; // Safe casting\n}",
+          "output": "No exception"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/ClassCastException.html"
+      ]
+    },
+    {
+      "type": "IllegalArgumentException",
+      "code": "SPR003",
+      "error": "Invalid Method Argument",
+      "severity": "Medium",
+      "description": "Thrown when a method receives an argument that is not appropriate for the method's purpose",
+      "cause": [
+        "Passing null to a method expecting a non-null value",
+        "Providing out-of-range values",
+        "Incorrect argument type"
+      ],
+      "solution": [
+        "Validate method arguments before passing",
+        "Use argument validation annotations",
+        "Implement input validation logic",
+        "Use @Valid annotation for bean validation"
+      ],
+      "tags": ["validation-error", "method-invocation", "input-checking"],
+      "examples": [
+        {
+          "code": "public void processAge(int age) {\n    if (age < 0) throw new IllegalArgumentException(\"Age cannot be negative\");\n}",
+          "output": "Exception in thread \"main\" java.lang.IllegalArgumentException: Age cannot be negative"
+        }
+      ],
+      "links": [
+        "https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html"
+      ]
+    },
+    {
+      "type": "NoSuchBeanDefinitionException",
+      "code": "SPR004",
+      "error": "Spring Bean Configuration Error",
+      "severity": "High",
+      "description": "Occurs when attempting to access a bean that is not defined in the Spring application context",
+      "cause": [
+        "Missing bean configuration",
+        "Incorrect bean name or type",
+        "Misconfigured component scanning",
+        "Dependency not properly defined"
+      ],
+      "solution": [
+        "Verify @Component, @Service, @Repository annotations",
+        "Check component scanning packages",
+        "Use @Autowired with @Qualifier if needed",
+        "Ensure correct bean configuration in XML or Java config"
+      ],
+      "tags": ["spring-framework", "dependency-injection", "configuration"],
+      "examples": [
+        {
+          "code": "@Autowired\nprivate UserService userService; // If UserService is not defined\n",
+          "output": "Exception: org.springframework.beans.factory.NoSuchBeanDefinitionException"
+        }
+      ],
+      "links": [
+        "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/NoSuchBeanDefinitionException.html"
+      ]
+    },
+    {
+      "type": "DataIntegrityViolationException",
+      "code": "SPR005",
+      "error": "Database Constraint Violation",
+      "severity": "High",
+      "description": "Thrown when an attempt to insert or update data violates database integrity constraints",
+      "cause": [
+        "Unique constraint violation",
+        "Foreign key constraint failure",
+        "Not-null constraint violation",
+        "Data type mismatch"
+      ],
+      "solution": [
+        "Implement proper data validation before database operations",
+        "Use @UniqueConstraint for entity constraints",
+        "Handle database-specific exceptions",
+        "Use transaction management"
+      ],
+      "tags": ["database-error", "jpa", "hibernate", "data-persistence"],
+      "examples": [
+        {
+          "code": "@Entity\npublic class User {\n    @Column(unique = true)\n    private String username;\n}",
+          "output": "Exception: org.springframework.dao.DataIntegrityViolationException"
+        }
+      ],
+      "links": [
+        "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/dao/DataIntegrityViolationException.html"
+      ]
+    },
+    {
+      "type": "MethodArgumentNotValidException",
+      "code": "SPR006",
+      "error": "Validation Failure",
+      "severity": "Medium",
+      "description": "Occurs when bean validation (JSR-303) fails for method arguments",
+      "cause": [
+        "Bean validation constraints not met",
+        "Invalid input data",
+        "Missing required fields",
+        "Value out of specified range"
+      ],
+      "solution": [
+        "Use @Valid annotation on method parameters",
+        "Add validation annotations like @NotNull, @Size, @Pattern",
+        "Create custom validation constraints",
+        "Implement global exception handling"
+      ],
+      "tags": ["validation", "bean-validation", "input-validation"],
+      "examples": [
+        {
+          "code": "public void createUser(@Valid @RequestBody UserDTO user) { ... }\n\nclass UserDTO {\n    @NotNull\n    @Size(min = 3, max = 50)\n    private String username;\n}",
+          "output": "Exception: org.springframework.web.bind.MethodArgumentNotValidException"
+        }
+      ],
+      "links": [
+        "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/MethodArgumentNotValidException.html"
+      ]
+    },
+    {
+      "type": "TransactionSystemException",
+      "code": "SPR007",
+      "error": "Transaction Management Failure",
+      "severity": "High",
+      "description": "Occurs when a problem arises during transaction management",
+      "cause": [
+        "Nested transaction errors",
+        "Database connection issues",
+        "Incomplete transaction rollback",
+        "Concurrent transaction conflicts"
+      ],
+      "solution": [
+        "Use @Transactional annotation carefully",
+        "Implement proper exception handling",
+        "Configure transaction management settings",
+        "Use appropriate isolation levels"
+      ],
+      "tags": ["transaction", "database", "spring-data"],
+      "examples": [
+        {
+          "code": "@Transactional\npublic void performComplexOperation() { ... }",
+          "output": "Exception: org.springframework.transaction.TransactionSystemException"
+        }
+      ],
+      "links": [
+        "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/TransactionSystemException.html"
+      ]
+    },
+    {
+      "type": "BeanCreationException",
+      "code": "SPR008",
+      "error": "Spring Bean Initialization Failure",
+      "severity": "High",
+      "description": "Occurs when Spring fails to create a bean during application context initialization",
+      "cause": [
+        "Constructor injection errors",
+        "Dependency cycle",
+        "Missing required dependencies",
+        "Incorrect bean configuration"
+      ],
+      "solution": [
+        "Resolve circular dependencies",
+        "Check constructor and setter injection",
+        "Verify @Autowired and @Inject usage",
+        "Use @Lazy or provider injection if needed"
+      ],
+      "tags": ["spring-framework", "bean-creation", "dependency-injection"],
+      "examples": [
+        {
+          "code": "@Component\npublic class CircularDependencyBean {\n    @Autowired\n    private CircularDependencyBean self;\n}",
+          "output": "Exception: org.springframework.beans.factory.BeanCreationException"
+        }
+      ],
+      "links": [
+        "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/BeanCreationException.html"
+      ]
+    },
+    {
+      "type": "HttpMediaTypeNotSupportedException",
+      "code": "SPR009",
+      "error": "Unsupported Media Type",
+      "severity": "Medium",
+      "description": "Thrown when the request content type is not supported by the REST endpoint",
+      "cause": [
+        "Incorrect Content-Type header",
+        "Unsupported media type in REST API",
+        "Mismatch between client and server content type",
+        "Missing media type configuration"
+      ],
+      "solution": [
+        "Specify correct Content-Type header",
+        "Use @RequestMapping with produces/consumes attributes",
+        "Configure media type converters",
+        "Handle media type negotiation explicitly"
+      ],
+      "tags": ["rest-api", "http", "content-negotiation"],
+      "examples": [
+        {
+          "code": "@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)\npublic void createResource(@RequestBody MyResource resource) { ... }",
+          "output": "Exception: org.springframework.web.HttpMediaTypeNotSupportedException"
+        }
+      ],
+      "links": [
+        "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/HttpMediaTypeNotSupportedException.html"
+      ]
+    },
+    {
+      "type": "ResourceAccessException",
+      "code": "SPR010",
+      "error": "Resource Access Failure",
+      "severity": "Medium",
+      "description": "Occurs when there's an I/O problem accessing an external resource",
+      "cause": [
+        "Network connectivity issues",
+        "Timeout during resource access",
+        "Connection refused",
+        "SSL/security-related access problems"
+      ],
+      "solution": [
+        "Configure proper timeout settings",
+        "Implement robust error handling",
+        "Use circuit breaker patterns",
+        "Validate external resource configurations"
+      ],
+      "tags": ["network", "resource-access", "connectivity"],
+      "examples": [
+        {
+          "code": "RestTemplate restTemplate = new RestTemplate();\nrestTemplate.getForObject(\"http://external-api.com/data\", String.class);",
+          "output": "Exception: org.springframework.web.client.ResourceAccessException"
+        }
+      ],
+      "links": [
+        "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/ResourceAccessException.html"
       ]
     }
   ]

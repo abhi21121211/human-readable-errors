@@ -1,15 +1,299 @@
 {
+  "language": "javascript",
+  "framework": "general",
   "errors": [
     {
-      "error": "TypeError: Cannot read property 'length' of undefined",
-      "description": "Occurs when attempting to access the length property of a value that is undefined.",
-      "solution": "Ensure the variable is defined before accessing its properties.",
-      "cause": "The variable was not initialized or incorrectly assigned.",
+      "type": "TypeError",
+      "code": "JS001",
+      "error": "Cannot read property 'length' of undefined",
       "severity": "high",
-      "tags": ["runtime", "javascript"],
-      "references": [
-        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undefined",
-        "https://stackoverflow.com/questions/..."
+      "description": "Occurs when trying to access the 'length' property of an undefined variable.",
+      "cause": [
+        "The variable is not initialized or is set to undefined.",
+        "A function did not return the expected value."
+      ],
+      "solution": [
+        "Ensure the variable is defined and has the expected value before accessing its properties.",
+        "Add null or undefined checks before accessing object properties."
+      ],
+      "tags": ["TypeError", "undefined", "JavaScript"],
+      "examples": [
+        {
+          "code": "let arr; console.log(arr.length);",
+          "output": "TypeError: Cannot read property 'length' of undefined"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undefined"
+      ]
+    },
+    {
+      "type": "SyntaxError",
+      "code": "JS002",
+      "error": "Unexpected token",
+      "severity": "high",
+      "description": "Occurs when the JavaScript engine encounters unexpected syntax.",
+      "cause": [
+        "A syntax error in the code, such as missing brackets, parentheses, or incorrect use of keywords.",
+        "Improperly formatted JSON data."
+      ],
+      "solution": [
+        "Check the syntax around the location of the error.",
+        "Use a linter to identify syntax issues before running the code."
+      ],
+      "tags": ["SyntaxError", "JavaScript", "syntax"],
+      "examples": [
+        {
+          "code": "let obj = {key: 'value',};",
+          "output": "SyntaxError: Unexpected token ','"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Unexpected_token"
+      ]
+    },
+    {
+      "type": "ReferenceError",
+      "code": "JS003",
+      "error": "Variable is not defined",
+      "severity": "high",
+      "description": "Occurs when trying to access a variable that has not been declared or is out of scope.",
+      "cause": [
+        "Using a variable before declaring it.",
+        "Misspelling a variable name.",
+        "Using a variable outside of its scope."
+      ],
+      "solution": [
+        "Ensure all variables are properly declared before use.",
+        "Check variable names for typos.",
+        "Verify variable scoping and accessibility."
+      ],
+      "tags": ["ReferenceError", "JavaScript", "scope"],
+      "examples": [
+        {
+          "code": "console.log(undeclaredVariable);",
+          "output": "ReferenceError: undeclaredVariable is not defined"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Not_defined"
+      ]
+    },
+    {
+      "type": "RangeError",
+      "code": "JS004",
+      "error": "Invalid array length",
+      "severity": "medium",
+      "description": "Occurs when creating an array with an invalid length or using a method with an inappropriate argument.",
+      "cause": [
+        "Attempting to create an array with a negative length.",
+        "Passing an invalid length to array methods.",
+        "Recursive function causing stack overflow."
+      ],
+      "solution": [
+        "Validate array lengths before creation.",
+        "Use appropriate array method arguments.",
+        "Implement proper recursion termination conditions."
+      ],
+      "tags": ["RangeError", "JavaScript", "array"],
+      "examples": [
+        {
+          "code": "let arr = new Array(-1);",
+          "output": "RangeError: Invalid array length"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Invalid_array_length"
+      ]
+    },
+    {
+      "type": "TypeError",
+      "code": "JS005",
+      "error": "Cannot call method of undefined",
+      "severity": "high",
+      "description": "Occurs when attempting to call a method on an undefined or null object.",
+      "cause": [
+        "Calling a method on an object that is not initialized.",
+        "Incorrect object reference due to asynchronous operations.",
+        "Unhandled null or undefined return values."
+      ],
+      "solution": [
+        "Add null/undefined checks before method calls.",
+        "Use optional chaining (?.) for safer method access.",
+        "Properly handle asynchronous data fetching."
+      ],
+      "tags": ["TypeError", "undefined", "method", "JavaScript"],
+      "examples": [
+        {
+          "code": "let obj = null;\nobj.someMethod();",
+          "output": "TypeError: Cannot read property 'someMethod' of null"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cannot_call_method"
+      ]
+    },
+    {
+      "type": "EvalError",
+      "code": "JS006",
+      "error": "Invalid use of eval()",
+      "severity": "high",
+      "description": "Occurs when using the eval() function incorrectly or with malformed code.",
+      "cause": [
+        "Passing invalid JavaScript code to eval().",
+        "Using eval() with untrusted or user-supplied input.",
+        "Complex nested evaluations."
+      ],
+      "solution": [
+        "Avoid using eval() when possible.",
+        "Sanitize and validate any input before passing to eval().",
+        "Use alternative methods like JSON.parse() for safe parsing."
+      ],
+      "tags": ["EvalError", "JavaScript", "security"],
+      "examples": [
+        {
+          "code": "eval('let x = {');\n// Incomplete object literal",
+          "output": "SyntaxError: Unexpected end of input"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval"
+      ]
+    },
+    {
+      "type": "TypeError",
+      "code": "JS007",
+      "error": "Cannot convert to primitive value",
+      "severity": "medium",
+      "description": "Occurs when attempting to convert an object to a primitive value inappropriately.",
+      "cause": [
+        "Implicit type conversion failing.",
+        "Object lacks proper toString() or valueOf() methods.",
+        "Attempting mathematical operations on non-primitive objects."
+      ],
+      "solution": [
+        "Implement custom toString() or valueOf() methods for objects.",
+        "Use explicit type conversion methods.",
+        "Be careful with type coercion in comparisons and calculations."
+      ],
+      "tags": ["TypeError", "type conversion", "JavaScript"],
+      "examples": [
+        {
+          "code": "let obj = {};\nlet result = obj + 5;",
+          "output": "TypeError: Cannot convert object to primitive value"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/valueOf"
+      ]
+    },
+    {
+      "type": "URIError",
+      "code": "JS008",
+      "error": "URI malformed",
+      "severity": "medium",
+      "description": "Occurs when using URI encoding/decoding functions with improperly formatted strings.",
+      "cause": [
+        "Passing invalid characters to encodeURI() or decodeURI().",
+        "Malformed URI strings.",
+        "Incorrect use of URI encoding methods."
+      ],
+      "solution": [
+        "Validate and sanitize URI strings before encoding/decoding.",
+        "Use encodeURIComponent() for query parameters.",
+        "Handle URI-related operations with error checking."
+      ],
+      "tags": ["URIError", "JavaScript", "encoding"],
+      "examples": [
+        {
+          "code": "decodeURI('%');\n// Incomplete percent-encoding",
+          "output": "URIError: URI malformed"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI"
+      ]
+    },
+    {
+      "type": "TypeError",
+      "code": "JS009",
+      "error": "Assignment to constant variable",
+      "severity": "high",
+      "description": "Occurs when attempting to reassign a value to a constant variable declared with const.",
+      "cause": [
+        "Trying to modify a constant variable after initialization.",
+        "Misunderstanding const variable behavior.",
+        "Accidental reassignment in complex logic."
+      ],
+      "solution": [
+        "Use let for variables that need to be reassigned.",
+        "Create a new variable instead of reassigning.",
+        "Use object.freeze() for deep immutability."
+      ],
+      "tags": ["TypeError", "const", "JavaScript", "immutability"],
+      "examples": [
+        {
+          "code": "const PI = 3.14159;\nPI = 3; // Attempt to reassign",
+          "output": "TypeError: Assignment to constant variable"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const"
+      ]
+    },
+    {
+      "type": "TypeError",
+      "code": "JS010",
+      "error": "Cannot convert undefined or null to object",
+      "severity": "high",
+      "description": "Occurs when attempting to access properties or methods on undefined or null values.",
+      "cause": [
+        "Passing undefined or null to object methods.",
+        "Incorrect handling of optional object properties.",
+        "Unhandled null or undefined values in chained method calls."
+      ],
+      "solution": [
+        "Use optional chaining (?.) to safely access nested properties.",
+        "Implement null checks before object operations.",
+        "Provide default values for potentially undefined variables."
+      ],
+      "tags": ["TypeError", "undefined", "null", "JavaScript"],
+      "examples": [
+        {
+          "code": "let obj = null;\nlet keys = Object.keys(obj);",
+          "output": "TypeError: Cannot convert undefined or null to object"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Null_to_object"
+      ]
+    },
+    {
+      "type": "InternalError",
+      "code": "JS011",
+      "error": "Too much recursion",
+      "severity": "high",
+      "description": "Occurs when a recursive function exceeds the maximum call stack size.",
+      "cause": [
+        "Recursive function without proper termination condition.",
+        "Extremely deep or infinite recursion.",
+        "Complex recursive algorithms without tail-call optimization."
+      ],
+      "solution": [
+        "Implement proper base cases to terminate recursion.",
+        "Convert recursive algorithms to iterative approaches.",
+        "Use tail-call optimization where possible.",
+        "Track recursion depth and implement manual stack management."
+      ],
+      "tags": ["InternalError", "recursion", "JavaScript", "stack overflow"],
+      "examples": [
+        {
+          "code": "function infiniteRecursion(n) {\n  return infiniteRecursion(n + 1);\n}\ninfiniteRecursion(0);",
+          "output": "InternalError: Too much recursion"
+        }
+      ],
+      "links": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Too_much_recursion"
       ]
     }
   ]

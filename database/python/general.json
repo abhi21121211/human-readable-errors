@@ -1,15 +1,319 @@
 {
+  "language": "python",
+  "framework": "general",
   "errors": [
     {
-      "error": "Error: ENOENT: no such file or directory",
-      "description": "This error occurs when a required file or directory is not found.",
-      "solution": "Check the file path and ensure it exists before accessing.",
-      "cause": "File was moved, deleted, or the path was incorrect.",
-      "severity": "medium",
-      "tags": ["filesystem", "nodejs"],
-      "references": [
-        "https://nodejs.org/api/errors.html#errors_common_system_errors",
-        "https://stackoverflow.com/questions/..."
+      "type": "TypeError",
+      "code": "PY001",
+      "error": "Unsupported Operand Type(s)",
+      "severity": "Medium",
+      "description": "Occurs when an operation is attempted between incompatible types.",
+      "cause": [
+        "Trying to add or subtract incompatible types (e.g., string and integer).",
+        "Performing operations on incompatible data types",
+        "Mixing type contexts without proper conversion"
+      ],
+      "solution": [
+        "Convert the data to compatible types before performing operations",
+        "Use type-checking to ensure operands are compatible",
+        "Utilize type conversion functions like int(), str(), float()",
+        "Implement explicit type checking with isinstance()"
+      ],
+      "tags": ["TypeError", "Python", "types", "type-conversion"],
+      "examples": [
+        {
+          "code": "result = 'string' + 10",
+          "output": "TypeError: unsupported operand type(s) for +: 'str' and 'int'"
+        },
+        {
+          "code": "# Correct approach\nresult = 'string' + str(10)",
+          "output": "'string10'"
+        }
+      ],
+      "links": ["https://docs.python.org/3/library/exceptions.html#TypeError"]
+    },
+    {
+      "type": "AttributeError",
+      "code": "PY002",
+      "error": "Attribute or Method Not Found",
+      "severity": "Medium",
+      "description": "Raised when an attribute reference or assignment fails",
+      "cause": [
+        "Attempting to access a non-existent attribute or method",
+        "Misspelled attribute names",
+        "Accessing attributes on inappropriate object types"
+      ],
+      "solution": [
+        "Verify attribute names are correct",
+        "Use hasattr() to check for attribute existence",
+        "Use getattr() with a default value",
+        "Implement proper object-oriented design"
+      ],
+      "tags": ["AttributeError", "OOP", "method-access"],
+      "examples": [
+        {
+          "code": "class MyClass:\n    pass\n\nobj = MyClass()\nprint(obj.non_existent_method())",
+          "output": "AttributeError: 'MyClass' object has no attribute 'non_existent_method'"
+        },
+        {
+          "code": "# Safe approach\nif hasattr(obj, 'method'):\n    obj.method()",
+          "output": "No error"
+        }
+      ],
+      "links": [
+        "https://docs.python.org/3/library/exceptions.html#AttributeError"
+      ]
+    },
+    {
+      "type": "IndexError",
+      "code": "PY003",
+      "error": "List Index Out of Range",
+      "severity": "Medium",
+      "description": "Occurs when trying to access a list index that doesn't exist",
+      "cause": [
+        "Accessing an index beyond the list's length",
+        "Using negative indices incorrectly",
+        "Not checking list length before indexing"
+      ],
+      "solution": [
+        "Check list length before indexing",
+        "Use try-except blocks for index access",
+        "Use safe indexing methods like get()",
+        "Implement bounds checking"
+      ],
+      "tags": ["IndexError", "list-access", "collection-manipulation"],
+      "examples": [
+        {
+          "code": "my_list = [1, 2, 3]\nprint(my_list[5])",
+          "output": "IndexError: list index out of range"
+        },
+        {
+          "code": "# Safe approach\nif 5 < len(my_list):\n    print(my_list[5])",
+          "output": "No error (or custom handling)"
+        }
+      ],
+      "links": ["https://docs.python.org/3/library/exceptions.html#IndexError"]
+    },
+    {
+      "type": "KeyError",
+      "code": "PY004",
+      "error": "Dictionary Key Not Found",
+      "severity": "Medium",
+      "description": "Raised when a dictionary key is not found",
+      "cause": [
+        "Attempting to access a non-existent dictionary key",
+        "Incorrect key spelling",
+        "Assuming a key exists without verification"
+      ],
+      "solution": [
+        "Use .get() method with default value",
+        "Check key existence with 'in' operator",
+        "Use dict.get() or collections.defaultdict()",
+        "Implement key validation before access"
+      ],
+      "tags": ["KeyError", "dictionary", "data-structures"],
+      "examples": [
+        {
+          "code": "my_dict = {'a': 1, 'b': 2}\nprint(my_dict['c'])",
+          "output": "KeyError: 'c'"
+        },
+        {
+          "code": "# Safe approach\nprint(my_dict.get('c', 'Default Value'))",
+          "output": "'Default Value'"
+        }
+      ],
+      "links": ["https://docs.python.org/3/library/exceptions.html#KeyError"]
+    },
+    {
+      "type": "ValueError",
+      "code": "PY005",
+      "error": "Invalid Value for Conversion",
+      "severity": "Medium",
+      "description": "Raised when a function receives an argument of correct type but inappropriate value",
+      "cause": [
+        "Type conversion failures",
+        "Parsing invalid input",
+        "Attempting to convert incompatible string representations"
+      ],
+      "solution": [
+        "Implement input validation",
+        "Use try-except blocks for conversions",
+        "Provide default or fallback values",
+        "Use type checking before conversions"
+      ],
+      "tags": ["ValueError", "type-conversion", "input-validation"],
+      "examples": [
+        {
+          "code": "int('abc')",
+          "output": "ValueError: invalid literal for int() with base 10: 'abc'"
+        },
+        {
+          "code": "# Safe approach\ntry:\n    value = int('abc')\nexcept ValueError:\n    value = 0",
+          "output": "0"
+        }
+      ],
+      "links": ["https://docs.python.org/3/library/exceptions.html#ValueError"]
+    },
+    {
+      "type": "ZeroDivisionError",
+      "code": "PY006",
+      "error": "Division by Zero",
+      "severity": "High",
+      "description": "Occurs when attempting to divide by zero",
+      "cause": [
+        "Mathematical operations involving division by zero",
+        "Incorrect calculation of denominators",
+        "Dynamic calculation leading to zero value"
+      ],
+      "solution": [
+        "Check denominator before division",
+        "Use try-except blocks",
+        "Implement default or safe return values",
+        "Use conditional checks before division"
+      ],
+      "tags": ["ZeroDivisionError", "mathematics", "error-handling"],
+      "examples": [
+        {
+          "code": "result = 10 / 0",
+          "output": "ZeroDivisionError: division by zero"
+        },
+        {
+          "code": "# Safe approach\nif denominator != 0:\n    result = numerator / denominator",
+          "output": "No error"
+        }
+      ],
+      "links": [
+        "https://docs.python.org/3/library/exceptions.html#ZeroDivisionError"
+      ]
+    },
+    {
+      "type": "ImportError",
+      "code": "PY007",
+      "error": "Module Import Failure",
+      "severity": "Medium",
+      "description": "Raised when an import statement fails",
+      "cause": [
+        "Missing modules or packages",
+        "Incorrect module names",
+        "Python path configuration issues",
+        "Dependency conflicts"
+      ],
+      "solution": [
+        "Verify module installation",
+        "Check Python path and environment",
+        "Use virtual environments",
+        "Install missing packages with pip",
+        "Use try-except for optional imports"
+      ],
+      "tags": ["ImportError", "module-loading", "dependency-management"],
+      "examples": [
+        {
+          "code": "import non_existent_module",
+          "output": "ImportError: No module named 'non_existent_module'"
+        },
+        {
+          "code": "# Safe approach\ntry:\n    import optional_module\nexcept ImportError:\n    optional_module = None",
+          "output": "No error"
+        }
+      ],
+      "links": ["https://docs.python.org/3/library/exceptions.html#ImportError"]
+    },
+    {
+      "type": "FileNotFoundError",
+      "code": "PY008",
+      "error": "File Access Error",
+      "severity": "Medium",
+      "description": "Raised when a file or directory is requested but cannot be found",
+      "cause": [
+        "Incorrect file paths",
+        "Missing files or directories",
+        "Insufficient file permissions",
+        "Relative path issues"
+      ],
+      "solution": [
+        "Verify file paths",
+        "Use absolute paths",
+        "Implement path existence checks",
+        "Use os.path.exists() before file operations",
+        "Handle file access with try-except"
+      ],
+      "tags": ["FileNotFoundError", "file-system", "file-handling"],
+      "examples": [
+        {
+          "code": "with open('non_existent_file.txt', 'r') as f:\n    content = f.read()",
+          "output": "FileNotFoundError: [Errno 2] No such file or directory: 'non_existent_file.txt'"
+        },
+        {
+          "code": "# Safe approach\nimport os\nif os.path.exists('file.txt'):\n    with open('file.txt', 'r') as f:\n        content = f.read()",
+          "output": "No error"
+        }
+      ],
+      "links": [
+        "https://docs.python.org/3/library/exceptions.html#FileNotFoundError"
+      ]
+    },
+    {
+      "type": "NameError",
+      "code": "PY009",
+      "error": "Undefined Name Reference",
+      "severity": "Medium",
+      "description": "Raised when a local or global name is not found",
+      "cause": [
+        "Using variables before definition",
+        "Misspelled variable names",
+        "Scope-related issues",
+        "Incorrect variable referencing"
+      ],
+      "solution": [
+        "Ensure variables are defined before use",
+        "Check variable naming consistency",
+        "Use globals() and locals() for debugging",
+        "Implement proper variable scoping"
+      ],
+      "tags": ["NameError", "variable-scope", "name-resolution"],
+      "examples": [
+        {
+          "code": "print(undefined_variable)",
+          "output": "NameError: name 'undefined_variable' is not defined"
+        },
+        {
+          "code": "# Safe approach\nif 'variable' in locals() or 'variable' in globals():\n    print(variable)",
+          "output": "No error"
+        }
+      ],
+      "links": ["https://docs.python.org/3/library/exceptions.html#NameError"]
+    },
+    {
+      "type": "RuntimeError",
+      "code": "PY010",
+      "error": "Generic Runtime Exception",
+      "severity": "High",
+      "description": "A generic error that occurs during program execution",
+      "cause": [
+        "Unexpected program state",
+        "Complex logic errors",
+        "Resource-related issues",
+        "Environmental constraints"
+      ],
+      "solution": [
+        "Implement comprehensive error handling",
+        "Use logging for detailed error tracking",
+        "Create custom exception handling",
+        "Validate program state regularly"
+      ],
+      "tags": ["RuntimeError", "error-handling", "program-state"],
+      "examples": [
+        {
+          "code": "# Example of potential runtime error\ndef complex_operation():\n    if some_complex_condition:\n        raise RuntimeError('Unexpected state')",
+          "output": "RuntimeError: Unexpected state"
+        },
+        {
+          "code": "# Safe approach\ntry:\n    complex_operation()\nexcept RuntimeError as e:\n    logging.error(f'Operation failed: {e}')",
+          "output": "Logged error message"
+        }
+      ],
+      "links": [
+        "https://docs.python.org/3/library/exceptions.html#RuntimeError"
       ]
     }
   ]

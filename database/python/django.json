@@ -1,16 +1,332 @@
 {
+  "language": "python",
+  "framework": "django",
   "errors": [
     {
-      "error": "Error: ENOENT: no such file or directory",
-      "description": "This error occurs when a required file or directory is not found.",
-      "solution": "Check the file path and ensure it exists before accessing.",
-      "cause": "File was moved, deleted, or the path was incorrect.",
-      "severity": "medium",
-      "tags": ["filesystem", "nodejs"],
-      "references": [
-        "https://nodejs.org/api/errors.html#errors_common_system_errors",
-        "https://stackoverflow.com/questions/..."
+      "type": "TypeError",
+      "code": "DJG001",
+      "error": "Unsupported Operand Type(s)",
+      "severity": "Medium",
+      "description": "Occurs when an operation is attempted between incompatible types in Django context",
+      "cause": [
+        "Trying to add or subtract incompatible types in model methods",
+        "Performing operations on queryset or model field types",
+        "Mixing type contexts in Django ORM operations"
+      ],
+      "solution": [
+        "Convert data to compatible types before performing operations",
+        "Use type-checking to ensure operands are compatible",
+        "Utilize Django's type conversion methods",
+        "Implement explicit type checking in model methods"
+      ],
+      "tags": ["TypeError", "Django", "ORM", "type-conversion"],
+      "examples": [
+        {
+          "code": "# In a model method\ndef calculate_total(self):\n    return self.price + 'USD'  # Incorrect type mixing",
+          "output": "TypeError: unsupported operand type(s) for +: 'Decimal' and 'str'"
+        },
+        {
+          "code": "# Correct approach\ndef calculate_total(self):\n    return str(self.price) + ' USD'",
+          "output": "'19.99 USD'"
+        }
+      ],
+      "links": ["https://docs.djangoproject.com/en/4.2/ref/models/"]
+    },
+    {
+      "type": "ImproperlyConfigured",
+      "code": "DJG002",
+      "error": "Configuration Error",
+      "severity": "High",
+      "description": "Raised when Django is somehow improperly configured",
+      "cause": [
+        "Incorrect settings in settings.py",
+        "Missing required configuration parameters",
+        "Misconfigured database connections",
+        "Incorrect middleware or application setup"
+      ],
+      "solution": [
+        "Carefully review settings.py",
+        "Verify all required settings are present",
+        "Check database configuration",
+        "Ensure all installed apps are correctly defined",
+        "Validate environment-specific configurations"
+      ],
+      "tags": ["configuration", "setup", "django-settings"],
+      "examples": [
+        {
+          "code": "# Incomplete settings configuration\nINSTALLED_APPS = [\n    # Missing essential Django apps\n]",
+          "output": "django.core.exceptions.ImproperlyConfigured: App with label 'contenttypes' not found"
+        },
+        {
+          "code": "# Incorrect database configuration\nDATABASES = {\n    'default': {\n        'ENGINE': 'wrong.database.engine',\n    }\n}",
+          "output": "ImproperlyConfigured: Django cannot use this database engine"
+        }
+      ],
+      "links": [
+        "https://docs.djangoproject.com/en/4.2/ref/exceptions/#improperlyconfigured"
       ]
+    },
+    {
+      "type": "ValidationError",
+      "code": "DJG003",
+      "error": "Model Validation Failure",
+      "severity": "Medium",
+      "description": "Occurs when model data fails validation constraints",
+      "cause": [
+        "Violating model field constraints",
+        "Failing custom model validation",
+        "Incorrect data types or formats",
+        "Not meeting model-level validation rules"
+      ],
+      "solution": [
+        "Implement clean() method in models",
+        "Use model form validation",
+        "Add custom validators",
+        "Validate data before saving",
+        "Use Django form validation"
+      ],
+      "tags": ["model-validation", "data-integrity", "form-validation"],
+      "examples": [
+        {
+          "code": "class UserProfile(models.Model):\n    age = models.IntegerField()\n    \n    def clean(self):\n        if self.age < 18:\n            raise ValidationError('User must be 18 or older')",
+          "output": "ValidationError: ['User must be 18 or older']"
+        },
+        {
+          "code": "# Form-level validation\nclass UserForm(forms.ModelForm):\n    def clean_age(self):\n        age = self.cleaned_data['age']\n        if age < 18:\n            raise forms.ValidationError('Must be 18 or older')",
+          "output": "Validation error on form submission"
+        }
+      ],
+      "links": [
+        "https://docs.djangoproject.com/en/4.2/ref/exceptions/#validationerror"
+      ]
+    },
+    {
+      "type": "ObjectDoesNotExist",
+      "code": "DJG004",
+      "error": "Database Object Not Found",
+      "severity": "Medium",
+      "description": "Raised when a database query cannot find the requested object",
+      "cause": [
+        "Querying for non-existent database records",
+        "Incorrect primary key or lookup",
+        "Deleted or never-existing database entries",
+        "Incorrect filtering conditions"
+      ],
+      "solution": [
+        "Use .get_object_or_404()",
+        "Implement try-except blocks",
+        "Use .exists() method before querying",
+        "Verify query conditions",
+        "Handle potential missing objects gracefully"
+      ],
+      "tags": ["database-query", "orm", "object-retrieval"],
+      "examples": [
+        {
+          "code": "# Direct model query\nuser = User.objects.get(id=999999)  # Non-existent ID",
+          "output": "User.DoesNotExist: User matching query does not exist"
+        },
+        {
+          "code": "# Safe approach\ntry:\n    user = User.objects.get(id=user_id)\nexcept User.DoesNotExist:\n    user = None",
+          "output": "Graceful error handling"
+        }
+      ],
+      "links": [
+        "https://docs.djangoproject.com/en/4.2/ref/exceptions/#objectdoesnotexist"
+      ]
+    },
+    {
+      "type": "PermissionDenied",
+      "code": "DJG005",
+      "error": "Access Unauthorized",
+      "severity": "High",
+      "description": "Raised when a user lacks permission to perform an action",
+      "cause": [
+        "Attempting to access restricted views",
+        "Insufficient user permissions",
+        "Misconfigured authentication",
+        "Unauthorized resource access"
+      ],
+      "solution": [
+        "Implement @login_required decorator",
+        "Use permission_required decorators",
+        "Create custom permission classes",
+        "Implement user authentication middleware",
+        "Use Django's built-in permission system"
+      ],
+      "tags": ["authentication", "authorization", "security"],
+      "examples": [
+        {
+          "code": "@login_required\ndef admin_dashboard(request):\n    return render(request, 'admin_dashboard.html')",
+          "output": "PermissionDenied: You must be logged in to access this page"
+        },
+        {
+          "code": "@permission_required('app.view_model')\ndef restricted_view(request):\n    return render(request, 'restricted.html')",
+          "output": "PermissionDenied: Insufficient permissions"
+        }
+      ],
+      "links": ["https://docs.djangoproject.com/en/4.2/topics/auth/default/"]
+    },
+    {
+      "type": "IntegrityError",
+      "code": "DJG006",
+      "error": "Database Integrity Violation",
+      "severity": "High",
+      "description": "Occurs when database constraints are violated",
+      "cause": [
+        "Duplicate unique field values",
+        "Foreign key constraint violations",
+        "Not-null constraint failures",
+        "Database-level integrity checks"
+      ],
+      "solution": [
+        "Implement unique constraints carefully",
+        "Use transactions",
+        "Validate data before database operations",
+        "Handle potential integrity errors",
+        "Use Django's built-in validation"
+      ],
+      "tags": ["database", "constraints", "data-integrity"],
+      "examples": [
+        {
+          "code": "# Model with unique constraint\nclass User(models.Model):\n    username = models.CharField(max_length=100, unique=True)\n    \n    # Attempting to create duplicate username",
+          "output": "IntegrityError: UNIQUE constraint failed"
+        },
+        {
+          "code": "# Safe approach with transaction\nfrom django.db import transaction\n\ntry:\n    with transaction.atomic():\n        user = User.objects.create(username='existing_user')\nexcept IntegrityError:\n    # Handle duplicate username",
+          "output": "Graceful error handling"
+        }
+      ],
+      "links": ["https://docs.djangoproject.com/en/4.2/ref/databases/"]
+    },
+    {
+      "type": "TemplateDoesNotExist",
+      "code": "DJG007",
+      "error": "Missing Template File",
+      "severity": "Medium",
+      "description": "Raised when a requested template cannot be found",
+      "cause": [
+        "Incorrect template file path",
+        "Missing template in configured directories",
+        "Misconfigured template loaders",
+        "Typos in template names"
+      ],
+      "solution": [
+        "Verify template file locations",
+        "Check TEMPLATES setting in settings.py",
+        "Use correct template naming conventions",
+        "Implement template fallback mechanisms",
+        "Debug template configuration"
+      ],
+      "tags": ["templates", "rendering", "views"],
+      "examples": [
+        {
+          "code": "def home_view(request):\n    return render(request, 'non_existent_template.html')",
+          "output": "TemplateDoesNotExist: non_existent_template.html"
+        },
+        {
+          "code": "# Fallback template rendering\ndef safe_render(request, template_name):\n    try:\n        return render(request, template_name)\n    except TemplateDoesNotExist:\n        return render(request, 'default_template.html')",
+          "output": "Renders default template if specified template is missing"
+        }
+      ],
+      "links": ["https://docs.djangoproject.com/en/4.2/topics/templates/"]
+    },
+    {
+      "type": "MultipleObjectsReturned",
+      "code": "DJG008",
+      "error": "Multiple Database Entries",
+      "severity": "Medium",
+      "description": "Raised when a query expecting a single object returns multiple",
+      "cause": [
+        "Querying with non-unique constraints",
+        "Unexpected data duplication",
+        "Incorrect unique field assumptions",
+        "Complex query returning multiple results"
+      ],
+      "solution": [
+        "Use .first() or .last() instead of .get()",
+        "Implement more specific query filters",
+        "Ensure unique constraints are enforced",
+        "Handle potential multiple object scenarios",
+        "Use .filter() for multiple results"
+      ],
+      "tags": ["database-query", "orm", "object-retrieval"],
+      "examples": [
+        {
+          "code": "# Querying with potential multiple results\nuser = User.objects.get(first_name='John')",
+          "output": "MultipleObjectsReturned: get() returned more than one User"
+        },
+        {
+          "code": "# Safe approach\nusers = User.objects.filter(first_name='John')\nuser = users.first() if users.exists() else None",
+          "output": "Handles multiple potential results"
+        }
+      ],
+      "links": ["https://docs.djangoproject.com/en/4.2/ref/models/querysets/"]
+    },
+    {
+      "type": "SuspiciousOperation",
+      "code": "DJG009",
+      "error": "Potential Security Threat",
+      "severity": "High",
+      "description": "Raised for potentially malicious or suspicious requests",
+      "cause": [
+        "Tampering with request data",
+        "Potential CSRF attacks",
+        "Suspicious HTTP method usage",
+        "Unexpected request parameters"
+      ],
+      "solution": [
+        "Use Django's CSRF protection",
+        "Implement proper input validation",
+        "Use @csrf_protect decorator",
+        "Validate and sanitize user inputs",
+        "Configure strict request handling"
+      ],
+      "tags": ["security", "web-security", "request-validation"],
+      "examples": [
+        {
+          "code": "# Without CSRF protection\ndef unsafe_view(request):\n    # Potentially vulnerable view\n    return render(request, 'form.html')",
+          "output": "SuspiciousOperation: CSRF verification failed"
+        },
+        {
+          "code": "# Secure view with CSRF protection\n@csrf_protect\ndef secure_view(request):\n    # Protected view\n    return render(request, 'form.html')",
+          "output": "Prevents potential CSRF attacks"
+        }
+      ],
+      "links": [
+        "https://docs.djangoproject.com/en/4.2/ref/middleware/#django.middleware.csrf.CsrfViewMiddleware"
+      ]
+    },
+    {
+      "type": "RuntimeError",
+      "code": "DJG010",
+      "error": "Django Runtime Exception",
+      "severity": "High",
+      "description": "Generic runtime error in Django application",
+      "cause": [
+        "Unexpected application state",
+        "Complex middleware interactions",
+        "Resource allocation issues",
+        "Unhandled exceptional conditions"
+      ],
+      "solution": [
+        "Implement comprehensive error handling",
+        "Use Django logging",
+        "Create custom exception handlers",
+        "Debug middleware and request processing",
+        "Validate application state regularly"
+      ],
+      "tags": ["runtime-error", "application-state", "error-handling"],
+      "examples": [
+        {
+          "code": "# Potential runtime error scenario\ndef complex_view(request):\n    if unexpected_condition:\n        raise RuntimeError('Unexpected application state')",
+          "output": "RuntimeError: Unexpected application state"
+        },
+        {
+          "code": "# Error handling approach\ntry:\n    result = complex_operation()\nexcept RuntimeError as e:\n    logger.error(f'Operation failed: {e}')\n    return HttpResponse('An error occurred', status=500)",
+          "output": "Logged error with fallback response"
+        }
+      ],
+      "links": ["https://docs.djangoproject.com/en/4.2/topics/logging/"]
     }
   ]
 }

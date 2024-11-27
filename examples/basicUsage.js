@@ -8,7 +8,7 @@ TypeError: Cannot read property 'length' of undefined
 `;
 
 const language = "javascript";
-const framework = "node";
+const framework = "general";
 
 const result = handleError(errorString, language, framework, true);
 console.log(result);
