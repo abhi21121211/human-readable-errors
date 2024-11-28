@@ -1,6 +1,5 @@
 //src / database / index.js;
 
-import { error } from "console";
 import fs from "fs";
 import path from "path";
 import { getSimilarityScore } from "../utils/similarity.js"; // Ensure this utility is implemented

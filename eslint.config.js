@@ -21,6 +21,7 @@ export default [
       "react/jsx-uses-react": "error", // Prevent React being marked as unused
       "react/jsx-uses-vars": "error", // Prevent JSX variables being marked as unused
       "no-console": "off", // Allow console statements
+      "no-constant-condition": "off", // Disable warnings for constant conditions
     },
     settings: {
       react: {
@@ -29,7 +30,7 @@ export default [
     },
   },
   {
-    files: ["tests/**/*.js"],
+    files: ["tests/**/*.js", "tests/**/*.mjs"], // Apply to test files
     languageOptions: {
       globals: {
         describe: "readonly",
