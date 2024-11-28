@@ -1,3 +1,5 @@
+//src / database / index.js;
+
 import { error } from "console";
 import fs from "fs";
 import path from "path";
@@ -11,7 +13,6 @@ import { getSimilarityScore } from "../utils/similarity.js"; // Ensure this util
  */
 function loadErrorMappings(language, framework) {
   const databasePath = path.resolve("database", language, `${framework}.json`);
-  console.log("Resolved database path:", databasePath);
 
   if (!fs.existsSync(databasePath)) {
     throw new Error(`Error mappings not found for ${language}/${framework}`);
@@ -131,4 +132,4 @@ function getErrorSolution(language, framework, errorDescription) {
   };
 }
 
-export { getErrorSolution };
+export { getErrorSolution, loadErrorMappings };

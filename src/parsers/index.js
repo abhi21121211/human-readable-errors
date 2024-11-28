@@ -1,3 +1,5 @@
+// src / parsers / index.js;
+
 import { nodeParser } from "./nodeParser.js";
 import { reactParser } from "./reactParser.js";
 import { parseAngularError } from "./angularParser.js";

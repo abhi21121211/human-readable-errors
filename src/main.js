@@ -1,3 +1,5 @@
+//src/main.js
+
 import { parseError } from "./parsers/index.js";
 import { getErrorSolution } from "./database/index.js";
 import { prettyPrintError } from "./utils/format.js";
@@ -14,6 +16,9 @@ import detectErrorSource from "./utils/sourceDetector.js";
  */
 function handleError(errorString, language, framework) {
   // Automatically detect language and framework if not provided
+  if (framework == "unknown") {
+    framework = "general";
+  }
   if (!language || !framework) {
     const detectionResult = detectErrorSource(errorString);
     language = detectionResult.language || "unknown";

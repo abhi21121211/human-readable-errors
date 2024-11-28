@@ -1,3 +1,5 @@
+//src/parsers/nodeParser.js
+
 /**
  * Parses a Node.js error string to extract error details.
  * @param {string} errorString - The error message or stack trace.

@@ -1,8 +1,6 @@
 // src/utils/format.js
 
 function prettyPrintError(errorObject) {
-  // console.log(errorObject, "fffffffffffff errorObject");
-
   // Colors (ANSI escape codes)
   const reset = "\x1b[0m";
   const red = "\x1b[31m";
@@ -20,7 +18,6 @@ function prettyPrintError(errorObject) {
   const stackEmoji = "📂";
   const linkEmoji = "🔗";
 
-  // console.log(errorObject, "fffffffffffffff errorObject");
   // Format causes as a bullet list
   const formattedCauses = errorObject.cause
     ?.map((cause, index) => `${yellow}  ${index + 1}. ${cause}${reset}`)
@@ -29,8 +26,8 @@ function prettyPrintError(errorObject) {
   // Format solutions as a bullet list
   const formattedSolutions = errorObject.solution
     .map((solution, index) => `${green}  ${index + 1}. ${solution}${reset}`)
+
     .join("\n");
-  console.log(errorObject.examples, "fffffffff errorObject.examples");
   // Format examples with code and output
 
   const formattedExamples = errorObject.examples

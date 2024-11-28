@@ -1,29 +1,21 @@
-// tests/parsers.test.js
+import { parseStackTrace } from "../src/parsers/stackTraceParser";
 
-import { parseStackTrace } from "../src/parsers/stackTraceParser.js";
-
-describe("StackTraceParser", () => {
-  test("Extracts error message from a stack trace", () => {
-    const stackTrace = `
-      TypeError: Cannot read property 'x' of undefined
-          at Object.<anonymous> (/path/to/file.js:10:15)
-          at Module._compile (internal/modules/cjs/loader.js:776:30)
-    `;
-    const result = parseStackTrace(stackTrace);
-    expect(result).toBe("TypeError: Cannot read property 'x' of undefined");
+describe("Stack Trace Parsing", () => {
+  test("should correctly parse a valid TypeError stack trace", () => {
+    const stack = `TypeError: Cannot read property 'foo' of undefined at Object.<anonymous> (/path/to/file.js:10:15)`;
+    const result = parseStackTrace(stack);
+    expect(result).toBe("TypeError: Cannot read property 'foo' of undefined");
   });
 
-  test("Returns null for invalid stack trace input", () => {
-    const result = parseStackTrace(null);
-    expect(result).toBeNull();
+  test("should handle an incomplete stack trace", () => {
+    const stack = `TypeError: Cannot read property 'foo' of undefined`;
+    const result = parseStackTrace(stack);
+    expect(result).toBe("TypeError: Cannot read property 'foo' of undefined");
   });
 
-  test("Handles stack traces without recognizable errors", () => {
-    const stackTrace = `
-      at Object.<anonymous> (/path/to/file.js:10:15)
-      at Module._compile (internal/modules/cjs/loader.js:776:30)
-    `;
-    const result = parseStackTrace(stackTrace);
+  test("should return null for invalid stack trace", () => {
+    const stack = `Invalid stack trace`;
+    const result = parseStackTrace(stack);
     expect(result).toBeNull();
   });
 });

@@ -1,3 +1,5 @@
+//src / utils / similarity.js;
+
 /**
  * Calculate the similarity score between two strings using Levenshtein distance.
  * @param {string} str1 - First string.
