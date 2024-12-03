@@ -1,24 +1,51 @@
-//src / database / index.js;
-
-import fs from "fs";
-import path from "path";
-import { getSimilarityScore } from "../utils/similarity.js"; // Ensure this utility is implemented
-
+// src/database/index.js
+import axios from "axios";
+import { getSimilarityScore } from "../utils/similarity.js";
+import errorMappings from "../database/errorMappings.json" assert { type: "json" };
+const API_BASE_URL = "https://human-readable-errors-db.onrender.com";
 /**
- * Loads error mappings for a given language and framework.
+ * Loads error mappings from the local JSON file.
  * @param {string} language - The programming language (e.g., "javascript").
  * @param {string} framework - The framework/environment (e.g., "node").
  * @returns {Object[]} - Array of error mappings.
  */
-function loadErrorMappings(language, framework) {
-  const databasePath = path.resolve("database", language, `${framework}.json`);
+function loadLocalErrorMappings(language, framework) {
+  return errorMappings || [];
+}
 
-  if (!fs.existsSync(databasePath)) {
-    throw new Error(`Error mappings not found for ${language}/${framework}`);
+/**
+ * Fetches error mappings from the remote server.
+ * @param {string} language - The programming language (e.g., "javascript").
+ * @param {string} framework - The framework/environment (e.g., "node").
+ * @returns {Promise<Object[]>} - Array of error mappings.
+ */
+async function fetchRemoteErrorMappings(language, framework) {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/search`, {
+      params: { query: `${language}:${framework}` },
+    });
+    return response.data.errors || [];
+  } catch (err) {
+    console.error("Error fetching data from the server:", err.message);
+    return null; // Indicate failure to fetch remote data
+  }
+}
+
+/**
+ * Fetches error mappings, prioritizing remote data with fallback to local data.
+ * @param {string} language - The programming language (e.g., "javascript").
+ * @param {string} framework - The framework/environment (e.g., "node").
+ * @returns {Object[]} - Array of error mappings.
+ */
+async function getErrorMappings(language, framework) {
+  const remoteData = await fetchRemoteErrorMappings(language, framework);
+
+  if (remoteData) {
+    return remoteData;
   }
 
-  const errorMappings = JSON.parse(fs.readFileSync(databasePath, "utf8"));
-  return errorMappings.errors || [];
+  console.warn("Falling back to local database.");
+  return loadLocalErrorMappings(language, framework);
 }
 
 /**
@@ -29,27 +56,18 @@ function loadErrorMappings(language, framework) {
  * @param {string} errorDescription - The error message or parsed description.
  * @returns {Object} - Matching error details or fallback response.
  */
-function getErrorSolution(language, framework, errorDescription) {
-  const errorMappings = loadErrorMappings(language, framework);
+async function getErrorSolution(language, framework, errorDescription) {
+  const errorMappings = await getErrorMappings(language, framework);
 
+  // console.log(errorMappings, "fffffffffffff errorMappings");
   // Attempt exact match
   const exactMatch = errorMappings.find(
     (err) =>
       err.error.trim().toLowerCase() === errorDescription.trim().toLowerCase()
   );
-
   if (exactMatch) {
     return {
-      type: language || exactMatch.type,
-      code: exactMatch.code,
-      error: exactMatch.error,
-      severity: exactMatch.severity,
-
-      description: exactMatch.description,
-      cause: exactMatch.cause,
-      solution: exactMatch.solution,
-      examples: exactMatch.examples,
-      reference: exactMatch.links,
+      ...exactMatch,
 
       matchScore: "1.00", // Exact match
     };
@@ -131,4 +149,4 @@ function getErrorSolution(language, framework, errorDescription) {
   };
 }
 
-export { getErrorSolution, loadErrorMappings };
+export { getErrorSolution };
