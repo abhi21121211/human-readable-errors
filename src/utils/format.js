@@ -1,6 +1,7 @@
 // src/utils/format.js
 
 function prettyPrintError(errorObject) {
+  console.log(errorObject, "fffffffffffff errorObject");
   // Colors (ANSI escape codes)
   const reset = "\x1b[0m";
   const red = "\x1b[31m";
