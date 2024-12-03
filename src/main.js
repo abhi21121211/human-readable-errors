@@ -15,7 +15,7 @@ import detectErrorSource from "./utils/sourceDetector.js";
  * @param {Object} localDatabase - The pre-bundled local error mappings.
  * @returns {Promise<object|string>} - Human-readable error solution or formatted output.
  */
-async function handleError(errorString, language, framework, pretty) {
+async function handleError(errorString, language, framework) {
   // Automatically detect language and framework if not provided
   if (framework === "unknown") {
     framework = "general";
@@ -52,7 +52,7 @@ async function handleError(errorString, language, framework, pretty) {
       stackTrace: parsedStack?.stackTrace || ["No stack trace provided."],
     };
     // console.log(result, "ffffffffff result");
-    return pretty ? prettyPrintError(result) : result;
+    return prettyPrintError(result);
   } catch (err) {
     console.error("Error fetching solution:", err.message);
     return pretty
