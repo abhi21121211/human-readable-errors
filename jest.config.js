@@ -1,8 +1,8 @@
 export default {
-  testEnvironment: "node",
-  testMatch: ["**/tests/**/*.test.mjs"],
-  transform: {},
+  testEnvironment: "node", // Use the Node.js environment
+  testMatch: ["**/tests/**/*.test.mjs"], // Match test files with .mjs extension
+  transform: {}, // No need for transformation if using native ESM
   moduleNameMapper: {
-    "^(\\.{1,2}/.*)\\.js$": "$1",
+    "^(\\.{1,2}/.*)\\.js$": "$1", // Resolve .js file paths correctly
   },
 };

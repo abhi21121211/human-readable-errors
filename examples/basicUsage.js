@@ -1,7 +1,8 @@
-import { handleError } from "../src/main.js";
+import { handleError, handlePrettyError } from "../src/main.js";
 
-const errorString = `TypeError: Cannot read property 'length' of undefined
+const errorString = `TypeError: Expected an assignment or function call.
     at Object.<anonymous> (/path/to/file.js:10:15)`;
 console.log("test xyz");
 let a = await handleError(errorString);
-console.log(a);
+let b = await handlePrettyError(errorString);
+console.log(a, b);

@@ -58,7 +58,7 @@ function prettyPrintError(errorObject) {
 
   // Format references
   const formattedReferences =
-    errorObject.links?.map((ref) => `${blue}${ref}${reset}`).join("\n") ||
+    errorObject.references?.map((ref) => `${blue}${ref}${reset}`).join("\n") ||
     `${blue}No references available.${reset}`;
 
   // Format tags
@@ -115,7 +115,6 @@ ${formattedReferences}
 
 ${formattedResources}
 
-${bold}🎯 Match Score:${reset} ${errorObject.matchScore || "N/A"}
 `;
 }
 
