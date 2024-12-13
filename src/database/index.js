@@ -1,95 +1,102 @@
-//src / database / index.js;
+// src/database/index.js
+import axios from "axios";
+import errorMappings from "../database/errorMappings.json" assert { type: "json" };
 
-import fs from "fs";
-import path from "path";
-import { getSimilarityScore } from "../utils/similarity.js"; // Ensure this utility is implemented
+const API_BASE_URL = "http://localhost:4000";
 
 /**
- * Loads error mappings for a given language and framework.
- * @param {string} language - The programming language (e.g., "javascript").
- * @param {string} framework - The framework/environment (e.g., "node").
- * @returns {Object[]} - Array of error mappings.
+ * Load error mappings from the local JSON file
+ * @returns {Array} - Local error mappings
  */
-function loadErrorMappings(language, framework) {
-  const databasePath = path.resolve("database", language, `${framework}.json`);
-
-  if (!fs.existsSync(databasePath)) {
-    throw new Error(`Error mappings not found for ${language}/${framework}`);
-  }
-
-  const errorMappings = JSON.parse(fs.readFileSync(databasePath, "utf8"));
-  return errorMappings.errors || [];
+function loadLocalErrorMappings(errorDescription) {
+  return errorMappings.filter(
+    (mapping) =>
+      mapping.description == errorDescription ||
+      mapping.error == errorDescription
+  );
 }
 
 /**
- * Fetches the error solution based on language, framework, and error description.
- * Calculates matchScore using getSimilarityScore if no exact match is found.
- * @param {string} language - The programming language (e.g., "javascript").
- * @param {string} framework - The framework/environment (e.g., "node").
- * @param {string} errorDescription - The error message or parsed description.
- * @returns {Object} - Matching error details or fallback response.
+ * Fetch remote error mappings using the API
+ * @param {string} errorDescription - The error description to search for
+ * @returns {Array|null} - Remote error mappings or null if the request fails
  */
-function getErrorSolution(language, framework, errorDescription) {
-  const errorMappings = loadErrorMappings(language, framework);
+async function fetchRemoteErrorMappings(errorDescription) {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/errors/search`, {
+      params: { query: errorDescription },
+    });
+    return response.data.results || [];
+  } catch (err) {
+    console.error("Error fetching data from the server:", err.message);
+    return null; // Indicate failure to fetch remote data
+  }
+}
 
-  // Attempt exact match
-  const exactMatch = errorMappings.find(
-    (err) =>
-      err.error.trim().toLowerCase() === errorDescription.trim().toLowerCase()
-  );
+/**
+ * Add unmatched errors to the rawErrors database for analysis
+ * @param {Object} error - The error object to add
+ * @returns {Object|null} - The response from the server or null on failure
+ */
+async function addToRawErrorsDatabase(error) {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/rawErrors`, error);
+    return response.data;
+  } catch (err) {
+    console.error("Error adding to rawErrors database:", err.message);
+    return null;
+  }
+}
 
-  if (exactMatch) {
+/**
+ * Get error mappings from remote API or local fallback
+ * @param {string} errorDescription - The error description to search for
+ * @returns {Array} - List of error mappings
+ */
+async function getErrorMappings(errorDescription) {
+  // Try to fetch data from the remote API
+  const remoteData = await fetchRemoteErrorMappings(errorDescription);
+
+  if (remoteData && remoteData.length > 0) {
+    return remoteData;
+  }
+
+  // Fall back to local error mappings
+  console.warn("Falling back to local database.");
+  return loadLocalErrorMappings(errorDescription);
+}
+
+/**
+ * Get error solution based on error description
+ * @param {string} errorDescription - The error description to search for
+ * @returns {Object} - A detailed error solution or fallback response
+ */
+async function getErrorSolution(errorDescription) {
+  const errorMappings = await getErrorMappings(errorDescription);
+
+  // If a match is found, return the best match
+  if (errorMappings && errorMappings.length > 0) {
+    const [bestMatch] = errorMappings; // Assume the first result is the best match
     return {
-      type: language || exactMatch.type,
-      code: exactMatch.code,
-      error: exactMatch.error,
-      severity: exactMatch.severity,
-
-      description: exactMatch.description,
-      cause: exactMatch.cause,
-      solution: exactMatch.solution,
-      examples: exactMatch.examples,
-      reference: exactMatch.links,
-
-      matchScore: "1.00", // Exact match
+      rowError: errorDescription,
+      type: bestMatch.type || "Unknown",
+      code: bestMatch.code || "N/A",
+      error: bestMatch.error || "N/A",
+      severity: bestMatch.severity || "N/A",
+      description: bestMatch.description || "No description available.",
+      cause: bestMatch.cause || ["Cause not specified."],
+      solution: bestMatch.solution || ["Solution not specified."],
+      examples: bestMatch.examples || [],
+      tags: bestMatch.tags || [],
+      reference: bestMatch.links || [],
+      resources: bestMatch.resources || {},
     };
   }
 
-  // Calculate matchScore for approximate matches
-  const scoredMatches = errorMappings.map((err) => {
-    const similarity = getSimilarityScore(
-      errorDescription.trim().toLowerCase(),
-      err.error.trim().toLowerCase()
-    );
-    return { ...err, matchScore: similarity.toFixed(2) };
-  });
+  // Add unmatched error to rawErrors database for analysis
+  await addToRawErrorsDatabase({ errorDescription });
 
-  // Find the closest match (highest matchScore)
-  const bestMatch = scoredMatches.reduce((prev, current) =>
-    parseFloat(current.matchScore) > parseFloat(prev.matchScore)
-      ? current
-      : prev
-  );
-
-  // If the best match has a high similarity score (e.g., >0.7), return it
-  if (parseFloat(bestMatch.matchScore) > 0.7) {
-    return {
-      type: language || bestMatch.type,
-      code: bestMatch.code,
-      error: bestMatch.error,
-      severity: bestMatch.severity,
-
-      description: bestMatch.description,
-      cause: bestMatch.cause,
-      solution: bestMatch.solution,
-      examples: bestMatch.examples,
-      reference: bestMatch.links,
-
-      matchScore: bestMatch.matchScore,
-    };
-  }
-
-  // Enhanced fallback response for no sufficiently similar matches
+  // Return a detailed fallback response
   return {
     type: "Unknown",
     code: "N/A",
@@ -127,8 +134,7 @@ function getErrorSolution(language, framework, errorDescription) {
       "https://stackoverflow.com/",
       "https://github.com/",
     ],
-    matchScore: "0.00",
   };
 }
 
-export { getErrorSolution, loadErrorMappings };
+export { getErrorSolution };
