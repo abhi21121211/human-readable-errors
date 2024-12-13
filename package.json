@@ -1,6 +1,6 @@
 {
   "name": "human-readable-errors",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "main": "src/main.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "description": "A library to transform complex error messages into human-readable solutions.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/abhi21121211/human-readable-errors.git"
+    "url": "git+https://github.com/abhi21121211/human-readable-errors.git"
   },
   "bugs": {
     "url": "https://github.com/abhi21121211/human-readable-errors/issues"
