@@ -1,8 +1,9 @@
 // src/database/index.js
 import axios from "axios";
 import errorMappings from "../database/errorMappings.json" assert { type: "json" };
+import dotenv from "dotenv";
 
-const API_BASE_URL = "http://localhost:4000";
+dotenv.config();
 
 /**
  * Load error mappings from the local JSON file
@@ -23,9 +24,12 @@ function loadLocalErrorMappings(errorDescription) {
  */
 async function fetchRemoteErrorMappings(errorDescription) {
   try {
-    const response = await axios.get(`${API_BASE_URL}/errors/search`, {
-      params: { query: errorDescription },
-    });
+    const response = await axios.get(
+      `${process.env.API_BASE_URL}/errors/search`,
+      {
+        params: { query: errorDescription },
+      }
+    );
     return response.data.results || [];
   } catch (err) {
     console.error("Error fetching data from the server:", err.message);
@@ -40,7 +44,11 @@ async function fetchRemoteErrorMappings(errorDescription) {
  */
 async function addToRawErrorsDatabase(error) {
   try {
-    const response = await axios.post(`${API_BASE_URL}/rawErrors`, error);
+    const response = await axios.post(
+      `${process.env.API_BASE_URL}/rawErrors`,
+      error
+    );
+
     return response.data;
   } catch (err) {
     console.error("Error adding to rawErrors database:", err.message);
