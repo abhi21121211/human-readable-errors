@@ -74,7 +74,7 @@ function detectErrorSource(errorString) {
   // Add more languages and frameworks here as needed
 
   // Fallback if no specific language or framework is detected
-  return { language: "unknown", framework: "general" };
+  return { language: "unknown", framework: "unknown" };
 }
 
 export default detectErrorSource;

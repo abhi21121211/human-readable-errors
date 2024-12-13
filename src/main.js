@@ -15,18 +15,24 @@ import detectErrorSource from "./utils/sourceDetector.js";
  * @param {Object} localDatabase - The pre-bundled local error mappings.
  * @returns {Promise<object|string>} - Human-readable error solution or formatted output.
  */
-async function handleError(errorString, language, framework, pretty) {
-  // Automatically detect language and framework if not provided
-  if (framework === "unknown") {
-    framework = "general";
+async function handleError(errorString) {
+  let language = "";
+  let framework = "";
+  if (
+    !errorString ||
+    errorString === "" ||
+    errorString === null ||
+    errorString === undefined
+  ) {
+    return "Error string is empty";
   }
   if (!language || !framework) {
     const detectionResult = detectErrorSource(errorString);
-    language = detectionResult.language || "unknown";
-    framework = detectionResult.framework || "general";
+    language = detectionResult.language;
+    framework = detectionResult.framework;
   }
 
-  const detectedEnvironment = `${language}/${framework}`;
+  const detectedEnvironment = `${framework}`;
 
   const parsedStack = parseStackTrace(errorString);
   const parsedError = parseError(errorString, detectedEnvironment);
@@ -38,33 +44,32 @@ async function handleError(errorString, language, framework, pretty) {
   }
 
   try {
-    const solution = await getErrorSolution(
-      language,
-      framework,
-      parsedError.description
-    );
-    // console.log(solution, "fffffffffffffffff solution");
+    const solution = await getErrorSolution(parsedError.description);
+
     const result = {
       ...parsedError,
       ...solution,
       environment: detectedEnvironment,
-      matchScore: solution.matchScore || "N/A",
+
       stackTrace: parsedStack?.stackTrace || ["No stack trace provided."],
     };
     // console.log(result, "ffffffffff result");
-    return pretty ? prettyPrintError(result) : result;
+    return result;
   } catch (err) {
     console.error("Error fetching solution:", err.message);
-    return pretty
-      ? prettyPrintError({
-          error: "An error occurred while fetching the solution.",
-          details: err.message,
-        })
-      : {
-          error: "An error occurred while fetching the solution.",
-          details: err.message,
-        };
   }
 }
 
-export { handleError };
+async function handlePrettyError(errorString) {
+  if (
+    !errorString ||
+    errorString === "" ||
+    errorString === null ||
+    errorString === undefined
+  ) {
+    return "Error string is empty";
+  }
+  return prettyPrintError(await handleError(errorString));
+}
+
+export { handleError, handlePrettyError };
