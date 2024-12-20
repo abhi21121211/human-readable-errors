@@ -1,8 +1,10 @@
 // src/database/index.js
 import axios from "axios";
 import { errorMappings } from "./errorMappings.js";
+import { parse } from "dotenv";
 
 const API_BASE_URL = "https://human-readable-errors-db.onrender.com";
+// const API_BASE_URL = "http://localhost:4000";
 /**
  * Load error mappings from the local JSON file
  * @returns {Array} - Local error mappings
@@ -39,8 +41,7 @@ async function fetchRemoteErrorMappings(errorDescription) {
  */
 async function addToRawErrorsDatabase(error) {
   try {
-    const response = await axios.post(`${API_BASE_URL}/rawErrors`, error);
-
+    const response = await axios.post(`${API_BASE_URL}/rowErrors`, error);
     return response.data;
   } catch (err) {
     console.error("Error adding to rawErrors database:", err.message);
@@ -57,7 +58,7 @@ async function getErrorMappings(errorDescription) {
   // Try to fetch data from the remote API
   const remoteData = await fetchRemoteErrorMappings(errorDescription);
 
-  if (remoteData && remoteData.length > 0) {
+  if (remoteData && remoteData.length > 0 && remoteData === null) {
     return remoteData;
   }
 
@@ -73,12 +74,12 @@ async function getErrorMappings(errorDescription) {
  */
 async function getErrorSolution(errorDescription) {
   const errorMappings = await getErrorMappings(errorDescription);
-
   // If a match is found, return the best match
   if (errorMappings && errorMappings.length > 0) {
     const [bestMatch] = errorMappings; // Assume the first result is the best match
     return {
       rowError: errorDescription,
+
       type: bestMatch.type || "Unknown",
       code: bestMatch.code || "N/A",
       error: bestMatch.error || "N/A",
@@ -94,7 +95,9 @@ async function getErrorSolution(errorDescription) {
   }
 
   // Add unmatched error to rawErrors database for analysis
-  await addToRawErrorsDatabase({ errorDescription });
+  await addToRawErrorsDatabase({
+    rowError: errorDescription,
+  });
 
   // Return a detailed fallback response
   return {

@@ -15,7 +15,8 @@ import detectErrorSource from "./utils/sourceDetector.js";
  * @param {Object} localDatabase - The pre-bundled local error mappings.
  * @returns {Promise<object|string>} - Human-readable error solution or formatted output.
  */
-async function handleError(errorString) {
+async function handleError(error) {
+  const errorString = String(error);
   let language = "";
   let framework = "";
   if (
