@@ -4,6 +4,7 @@
  * @returns {object} - The detected environment with language and framework.
  */
 function detectErrorSource(errorString) {
+  // console.log(errorString, "fffffffffffff errorString");
   // JavaScript General Errors
   if (
     errorString.includes("TypeError") ||

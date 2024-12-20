@@ -1,7 +1,6 @@
 // src/database/index.js
 import axios from "axios";
 import { errorMappings } from "./errorMappings.js";
-import { parse } from "dotenv";
 
 const API_BASE_URL = "https://human-readable-errors-db.onrender.com";
 // const API_BASE_URL = "http://localhost:4000";
@@ -55,11 +54,12 @@ async function addToRawErrorsDatabase(error) {
  * @returns {Array} - List of error mappings
  */
 async function getErrorMappings(errorDescription) {
+  // console.log(errorDescription, "ffffffffffffff errorDescription");
   // Try to fetch data from the remote API
   const remoteData = await fetchRemoteErrorMappings(errorDescription);
-
-  if (remoteData && remoteData.length > 0 && remoteData === null) {
-    return remoteData;
+  // Validate remoteData: ensure it is an array with valid objects
+  if (Array.isArray(remoteData) && remoteData.some((item) => item !== null)) {
+    return remoteData.filter((item) => item !== null); // Remove any null values
   }
 
   // Fall back to local error mappings

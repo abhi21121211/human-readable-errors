@@ -1,5 +1,3 @@
-//src/parsers/nodeParser.js
-
 /**
  * Parses a Node.js error string to extract error details.
  * @param {string} errorString - The error message or stack trace.
@@ -17,7 +15,7 @@ function nodeParser(errorString) {
   }
 
   // Matches the first line of an error message to extract the type and message
-  const errorPattern = /^(?<type>[a-zA-Z]+Error):\s(?<description>.+)$/m;
+  const errorPattern = /^(?<type>[a-zA-Z]+Error)\s*:\s*(?<description>.+)$/m;
   // Matches the first occurrence of a file, line, and column in a stack trace
   const stackPattern = /\((?<file>[^:]+):(?<line>\d+):(?<column>\d+)\)/;
 

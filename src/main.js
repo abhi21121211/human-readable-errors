@@ -31,10 +31,10 @@ async function handleError(error) {
     const detectionResult = detectErrorSource(errorString);
     language = detectionResult.language;
     framework = detectionResult.framework;
+    // console.log(detectionResult, "fffffffffffffff detectionResult");
   }
-
   const detectedEnvironment = `${framework}`;
-
+  // console.log(detectedEnvironment, "fffffffffffffff detectedEnvironment");
   const parsedStack = parseStackTrace(errorString);
   const parsedError = parseError(errorString, detectedEnvironment);
 
@@ -45,6 +45,7 @@ async function handleError(error) {
   }
 
   try {
+    // console.log(parsedError, "ffffffffff parsedError.description");
     const solution = await getErrorSolution(parsedError.description);
 
     const result = {
