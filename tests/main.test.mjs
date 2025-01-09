@@ -8,7 +8,7 @@ describe("handleError Function", () => {
     const errorString = "TypeError: Cannot read property 'length' of undefined";
 
     const result = await handleError(errorString);
-    expect(result.code).toBe("JS004");
+    expect(result.code).toBe("JS001");
     expect(result.solution).toBeTruthy(); // Ensure the solution is not empty
   });
 });

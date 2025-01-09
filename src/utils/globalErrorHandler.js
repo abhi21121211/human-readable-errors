@@ -1,4 +1,4 @@
-import { handleError, handlePrettyError } from "../main.js";
+import { handlePrettyError } from "../main.js";
 
 /**
  * Initialize global error handling for Node.js applications.
