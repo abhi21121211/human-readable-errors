@@ -41,6 +41,7 @@ async function fetchRemoteErrorMappings(errorDescription) {
 async function addToRawErrorsDatabase(error) {
   try {
     const response = await axios.post(`${API_BASE_URL}/rowErrors`, error);
+    console.log("Added to rawErrors database:", error);
     return response.data;
   } catch (err) {
     console.error("Error adding to rawErrors database:", err.message);

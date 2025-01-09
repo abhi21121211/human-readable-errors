@@ -4,6 +4,7 @@
  * @returns {Object} - Parsed error details, including type, description, file, line number, and column number.
  */
 function nodeParser(errorString) {
+  // console.log(errorString, "fffffffffffff errorString");
   if (!errorString || typeof errorString !== "string") {
     return {
       type: "UnknownError",

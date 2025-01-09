@@ -6,6 +6,9 @@ import { prettyPrintError } from "./utils/format.js";
 import { parseStackTrace } from "./parsers/stackTraceParser.js";
 import detectErrorSource from "./utils/sourceDetector.js";
 
+import { initializeBrowserErrorHandler } from "./utils/browserErrorHandler.js";
+import { initializeNodeErrorHandler } from "./utils/globalErrorHandler.js";
+
 /**
  * Handles an error and provides a human-readable solution.
  * @param {string} errorString - The error message or stack trace.
@@ -31,13 +34,12 @@ async function handleError(error) {
     const detectionResult = detectErrorSource(errorString);
     language = detectionResult.language;
     framework = detectionResult.framework;
-    // console.log(detectionResult, "fffffffffffffff detectionResult");
   }
   const detectedEnvironment = `${framework}`;
   // console.log(detectedEnvironment, "fffffffffffffff detectedEnvironment");
   const parsedStack = parseStackTrace(errorString);
   const parsedError = parseError(errorString, detectedEnvironment);
-
+  // console.log(parsedStack, "ffffffffffffffff parsedStack");
   if (parsedError.type === "UnknownError") {
     console.warn(
       "Warning: Unknown error type detected. Please check the input error string."
@@ -74,4 +76,17 @@ async function handlePrettyError(errorString) {
   return prettyPrintError(await handleError(errorString));
 }
 
-export { handleError, handlePrettyError };
+function initializeHumanReadableErrors() {
+  if (typeof window !== "undefined") {
+    initializeBrowserErrorHandler();
+  } else {
+    initializeNodeErrorHandler();
+  }
+}
+export {
+  handleError,
+  handlePrettyError,
+  initializeNodeErrorHandler,
+  initializeBrowserErrorHandler,
+  initializeHumanReadableErrors,
+};

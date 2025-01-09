@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Error Handler Test</title>
+    <script type="module">
+        import { initializeBrowserErrorHandler } from '../src/main.js'; // Update path to your library build
+
+        // Initialize error handling
+        initializeBrowserErrorHandler();
+
+        // Simulate runtime error
+        setTimeout(() => {
+            throw new Error('Simulated runtime error in browser');
+        }, 1000);
+
+        // Simulate unhandled promise rejection
+        setTimeout(() => {
+            Promise.reject(new Error('Simulated unhandled promise rejection'));
+        }, 2000);
+    </script>
+</head>
+
+<body>
+    <h1>Browser Error Handler Test</h1>
+    <p>Check the console for human-readable error messages.</p>
+</body>
+
+</html>

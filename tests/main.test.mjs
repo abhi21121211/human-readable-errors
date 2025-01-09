@@ -1,4 +1,5 @@
 // tests/main.test.mjs
+
 import { handleError } from "../src/main.js";
 
 // Test suite
