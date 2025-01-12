@@ -41,11 +41,11 @@ async function fetchRemoteErrorMappings(errorDescription) {
 async function addToRawErrorsDatabase(error) {
   try {
     const response = await axios.post(`${API_BASE_URL}/rowErrors`, error);
-    console.log("Added to rawErrors database:", error);
+    // console.log("Added to rawErrors database:", error);
     return response.data;
   } catch (err) {
-    console.error("Error adding to rawErrors database:", err.message);
-    return null;
+    // console.error("Error adding to rawErrors database:", err.message);
+    return err;
   }
 }
 
@@ -55,7 +55,6 @@ async function addToRawErrorsDatabase(error) {
  * @returns {Array} - List of error mappings
  */
 async function getErrorMappings(errorDescription) {
-  // console.log(errorDescription, "ffffffffffffff errorDescription");
   // Try to fetch data from the remote API
   const remoteData = await fetchRemoteErrorMappings(errorDescription);
   // Validate remoteData: ensure it is an array with valid objects
@@ -64,7 +63,7 @@ async function getErrorMappings(errorDescription) {
   }
 
   // Fall back to local error mappings
-  console.warn("Falling back to local database.");
+  // console.warn("Falling back to local database.");
   return loadLocalErrorMappings(errorDescription);
 }
 
@@ -101,42 +100,25 @@ async function getErrorSolution(errorDescription) {
   });
 
   // Return a detailed fallback response
+
   return {
     type: "Unknown",
     code: "N/A",
     error: "N/A",
     severity: "N/A",
     description:
-      "No exact or sufficiently similar match found for the provided error description. However, here are some steps you can take to debug the issue effectively.",
+      "No exact or sufficiently similar match was found for the provided error description. However, this error description is available in our database within 24 hours.",
     cause: [
       "The error might not be present in the human-readable-errors database.",
-      "The error description might differ slightly from standard error messages.",
-      "There might be a deeper issue related to your code or environment setup.",
     ],
     solution: [
-      "Verify the error message for typos or variations.",
-      "Ensure the environment (e.g., Node.js, React, Django) is correctly configured.",
-      "Check for missing dependencies or incorrect versions in your project.",
-      "Search for the error message online to find related discussions or solutions.",
       "Refer to official documentation or community forums for insights.",
     ],
-    examples: [
-      {
-        type: "Example Debugging Process",
-        steps: [
-          "1. Analyze the error stack trace to locate the source of the issue.",
-          "2. Isolate the code snippet where the error occurs and test it independently.",
-          "3. Add logging or debugging statements to track variable values and function behavior.",
-          "4. Consult project-specific guides or tutorials for common issues.",
-        ],
-        output: "This process should help narrow down the root cause.",
-      },
-    ],
+    examples: [],
     tags: ["Error Handling", "Debugging", "Guidance"],
     reference: [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-      "https://stackoverflow.com/",
-      "https://github.com/",
+      "https://stackoverflow.com/questions/tagged/javascript",
     ],
   };
 }

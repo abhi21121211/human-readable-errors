@@ -20,19 +20,19 @@ function prettyPrintError(errorObject) {
 
   // Format causes as a bullet list
   const formattedCauses =
-    errorObject.cause
+    errorObject?.cause
       ?.map((cause, index) => `${yellow}  ${index + 1}. ${cause}${reset}`)
       .join("\n") || `${yellow}No causes available.${reset}`;
 
   // Format solutions as a bullet list
   const formattedSolutions =
-    errorObject.solution
+    errorObject?.solution
       ?.map((solution, index) => `${green}  ${index + 1}. ${solution}${reset}`)
       .join("\n") || `${green}No solutions available.${reset}`;
 
   // Format examples with code and output
   const formattedExamples =
-    errorObject.examples
+    errorObject?.examples
       ?.map(
         (example, index) =>
           `${codeEmoji} Example ${
@@ -45,7 +45,7 @@ function prettyPrintError(errorObject) {
 
   // Format stack trace for better readability
   const formattedStackTrace =
-    errorObject.stackTrace
+    errorObject?.stackTrace
       ?.map(
         (trace, index) =>
           `${stackEmoji} ${index + 1}. Function: ${
@@ -58,26 +58,26 @@ function prettyPrintError(errorObject) {
 
   // Format references
   const formattedReferences =
-    errorObject.references?.map((ref) => `${blue}${ref}${reset}`).join("\n") ||
+    errorObject?.reference?.map((ref) => `${blue}${ref}${reset}`).join("\n") ||
     `${blue}No references available.${reset}`;
 
   // Format tags
   const formattedTags =
-    errorObject.tags?.map((tag) => `${magenta}${tag}${reset}`).join(", ") ||
+    errorObject?.tags?.map((tag) => `${magenta}${tag}${reset}`).join(", ") ||
     `${magenta}No tags available.${reset}`;
 
   // Format additional resources
   const formattedResources = `
 ${bold}${linkEmoji} Videos:${reset}
 ${
-  errorObject.resources?.videos
+  errorObject?.resources?.videos
     ?.map((video) => `${cyan}${video}${reset}`)
     .join("\n") || "None"
 }
 
 ${bold}${linkEmoji} Tutorials:${reset}
 ${
-  errorObject.resources?.tutorials
+  errorObject?.resources?.tutorials
     ?.map((tutorial) => `${cyan}${tutorial}${reset}`)
     .join("\n") || "None"
 }
@@ -85,16 +85,18 @@ ${
 
   return `
 ${red}${bold}[ERROR INSIGHT]${reset}
-${bold}${yellow}⚡ Type:${reset} ${errorObject.type || "Unknown"}
-${bold}${blue}🌐 Environment:${reset} ${errorObject.environment || "Unknown"}
+${bold}${yellow}⚡ Type:${reset} ${errorObject?.type || "Unknown"}
+${bold}${blue}🌐 Environment:${reset} ${errorObject?.environment || "Unknown"}
 ${bold}${red}❗ Description:${reset} ${
-    errorObject.description || "No description provided."
+    errorObject?.description || "No description provided."
   }
-${bold}${magenta}📍 Location:${reset} ${errorObject.file || "Unknown"} (Line: ${
-    errorObject.lineNumber || "N/A"
-  }, Column: ${errorObject.columnNumber || "N/A"})
-${bold}${cyan}🆔 Code:${reset} ${errorObject.code || "N/A"}
-${bold}${yellow}🔥 Severity:${reset} ${errorObject.severity || "N/A"}
+${bold}${magenta}📍 Location:${reset} ${
+    errorObject?.file || "Unknown"
+  } (Line: ${errorObject?.lineNumber || "N/A"}, Column: ${
+    errorObject?.columnNumber || "N/A"
+  })
+${bold}${cyan}🆔 Code:${reset} ${errorObject?.code || "N/A"}
+${bold}${yellow}🔥 Severity:${reset} ${errorObject?.severity || "N/A"}
 
 ${bold}${magenta}🔖 Tags:${reset} ${formattedTags}
 

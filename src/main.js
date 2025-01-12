@@ -65,6 +65,7 @@ async function handleError(error) {
 }
 
 async function handlePrettyError(errorString) {
+  // console.log(errorString, "ffffffffffffffffff errorString");
   if (
     !errorString ||
     errorString === "" ||
@@ -73,6 +74,7 @@ async function handlePrettyError(errorString) {
   ) {
     return "Error string is empty";
   }
+  // console.log(handleError(errorString), "fffffffffffffff handleError");
   return prettyPrintError(await handleError(errorString));
 }
 
